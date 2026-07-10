@@ -1,3 +1,17 @@
+// index.htmlを非表示URLへ統一
+if(location.pathname.endsWith("/index.html")){
+
+    location.replace(
+        location.pathname.replace(
+            "/index.html",
+            "/"
+        )
+        + location.search
+        + location.hash
+    );
+
+}
+
 // メニュー開閉
 function toggleMenu(){
 
