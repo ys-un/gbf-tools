@@ -807,3 +807,13 @@ input:focus{
 [hidden]{
   display:none !important;
 }
+
+/* =========================
+   認証エリア hidden制御
+========================= */
+
+.auth_login_btn[hidden],
+.auth_user[hidden],
+.auth_logout_btn[hidden]{
+  display:none !important;
+}
