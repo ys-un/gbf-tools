@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>古戦場 時速換算ツール</title>
+
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" type="image/png" href="favicon.png">
+
+</head>
+
+<body class="speed_page">
+
+<div class="mobile_header">
+
+  <button
+    class="menu_btn"
+    onclick="toggleMenu()"
+  >
+    ☰ MENU
+  </button>
+
+</div>
+
+<div class="sidebar" id="sidebar">
+
+  <h2>GBF Tools</h2>
+
+  <a href="index.html">TOP</a>
+  <a href="stone.html">天井計算機</a>
+  <a href="meat.html">肉消費計算機</a>
+  <a href="speed.html">時速換算</a>
+  <a href="efficiency.html">HELL効率比較</a>
+
+</div>
+
+<div class="main">
+
+  <div class="card">
+
+    <h1>古戦場 時速換算ツール</h1>
+
+    <div class="grid">
+
+      <div class="field">
+        <label>現在の貢献度</label>
+        <input type="number" id="currentHonor" value="0">
+      </div>
+
+      <div class="field">
+        <label>目標貢献度</label>
+        <input type="number" id="targetHonor" value="1000000000">
+      </div>
+
+      <div class="field">
+        <label>残り時間（時間）</label>
+        <input type="number" id="remainHour" value="24">
+      </div>
+
+      <div class="field">
+        <label>現在の時速（任意）</label>
+        <input type="number" id="currentSpeed" value="0">
+      </div>
+
+    </div>
+
+    <div class="result">
+
+      <div class="result_item">
+        <div class="result_label">必要貢献度</div>
+        <div class="result_value" id="needHonor">0</div>
+      </div>
+
+      <div class="result_item">
+        <div class="result_label">必要時速</div>
+        <div class="result_value highlight" id="needSpeed">0 /h</div>
+      </div>
+
+      <div class="result_item">
+        <div class="result_label">現在速度での最終予測</div>
+        <div class="result_value money" id="finalPrediction">0</div>
+      </div>
+
+      <div class="result_item">
+        <div class="result_label">目標到達判定</div>
+        <div class="result_value" id="judge">-</div>
+      </div>
+
+    </div>
+
+    <!-- 時速換算 -->
+    <div class="result" style="margin-top:20px;">
+
+      <h2 style="margin-top:0; margin-bottom:20px;">
+        時速計算
+      </h2>
+
+      <div class="grid">
+
+        <div class="field">
+          <label>1時間前の貢献度</label>
+          <input type="number" id="onehourBefore" value="0">
+        </div>
+
+        <div class="field">
+          <label>1時間後の貢献度</label>
+          <input type="number" id="onehourAfter" value="0">
+        </div>
+
+      </div>
+
+      <div class="result_item">
+        <div class="result_label">時速</div>
+        <div class="result_value highlight" id="onehourSpeed">
+          0 /h
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 15分換算 -->
+    <div class="result" style="margin-top:20px;">
+
+      <h2 style="margin-top:0; margin-bottom:20px;">
+        15分時速換算
+      </h2>
+
+      <div class="grid">
+
+        <div class="field">
+          <label>15分前の貢献度</label>
+          <input type="number" id="quarterBefore" value="0">
+        </div>
+
+        <div class="field">
+          <label>15分後の貢献度</label>
+          <input type="number" id="quarterAfter" value="0">
+        </div>
+
+      </div>
+
+      <div class="result_item" style="margin-top:20px;">
+        <div class="result_label">15分増加量</div>
+        <div class="result_value" id="quarterDiff">
+          0
+        </div>
+      </div>
+
+      <div class="result_item">
+        <div class="result_label">推定時速</div>
+        <div class="result_value highlight" id="quarterSpeed">
+          0 /h
+        </div>
+      </div>
+
+    </div>
+
+    <div class="button_area">
+
+      <button
+        type="button"
+        class="action_btn reset_btn"
+        onclick="resetData()"
+      >
+        リセット
+      </button>
+
+    </div>
+
+    <div class="note">
+      ※ 現在の時速を入力すると、残り時間終了時点の予測貢献度を表示します。<br>
+      ※ 時速は「1時間あたりの貢献度」で入力してください。<br>
+      ※ 15分換算は「15分間の貢献度 × 4」で計算しています。
+    </div>
+
+  </div>
+
+</div>
+
+<script src="assets/js/cmn.js"></script>
+<script src="assets/js/speed.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>グラブル 天井計算機</title>
+
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" type="image/png" href="favicon.png">
+
+</head>
+
+<body class="stone_page">
+
+<div class="mobile_header">
+
+  <button
+    class="menu_btn"
+    onclick="toggleMenu()"
+  >
+    ☰ MENU
+  </button>
+
+</div>
+
+<div class="sidebar" id="sidebar">
+
+  <h2>GBF Tools</h2>
+
+  <a href="index.html">TOP</a>
+  <a href="stone.html">天井計算機</a>
+  <a href="meat.html">肉消費計算機</a>
+  <a href="speed.html">時速換算</a>
+  <a href="efficiency.html">HELL効率比較</a>
+
+</div>
+
+<div class="main">
+
+  <div class="card">
+
+    <h1>グラブル 天井計算機</h1>
+
+    <div class="grid">
+
+      <div class="field">
+        <label>現在の宝晶石</label>
+        <input type="number" id="stone" value="0">
+      </div>
+
+      <div class="field">
+        <label>単発チケット枚数</label>
+        <input type="number" id="singleTicket" value="0">
+      </div>
+
+      <div class="field">
+        <label>10連チケット枚数</label>
+        <input type="number" id="tenTicket" value="0">
+      </div>
+
+      <div class="field">
+        <label>蒼光の御印</label>
+        <input type="number" id="mark" value="0">
+      </div>
+
+    </div>
+
+    <div class="result_flex">
+
+    <!-- リザルト -->
+    <div class="result">
+
+      <div class="result_item">
+        <div class="result_label">トータル宝晶石換算</div>
+        <div class="result_value" id="totalStone">0個</div>
+      </div>
+
+      <div class="result_item">
+        <div class="result_label">総ガチャ回数</div>
+        <div class="result_value highlight" id="totalRoll">0連</div>
+      </div>
+
+      <div class="result_item">
+        <div class="result_label">天井まで残り</div>
+        <div class="result_value" id="remainRoll">300連</div>
+      </div>
+
+      <div class="result_item">
+        <div class="result_label">不足宝晶石</div>
+        <div class="result_value" id="needStone">90,000個</div>
+      </div>
+
+      <div class="result_item">
+        <div class="result_label">天井までの金額差額</div>
+        <div class="result_value money" id="needMoney">¥90,000</div>
+      </div>
+
+    </div>
+
+
+    <!-- 円グラフ -->
+
+    <div class="chart_side">
+
+      <div class="chart_box">
+
+        <div
+          class="pie_chart"
+          id="pieChart"
+        ></div>
+
+        <div class="chart_center">
+
+          <div
+            class="chart_percent"
+            id="chartPercent"
+          >
+            0%
+          </div>
+
+          <div class="chart_text">
+            天井進捗
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+    <div class="button_area">
+
+      <button
+        type="button"
+        class="action_btn reset_btn"
+        onclick="resetData()"
+      >
+        リセット
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script src="assets/js/cmn.js"></script>
+<script src="assets/js/stone.js"></script>
+
+</body>
+</html>

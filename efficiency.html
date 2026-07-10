@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>HELL効率比較</title>
+
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" type="image/png" href="favicon.png">
+
+</head>
+
+<body>
+
+<div class="mobile_header">
+  <button
+    class="menu_btn"
+    onclick="toggleMenu()"
+  >
+    ☰ MENU
+  </button>
+</div>
+
+<div class="sidebar" id="sidebar">
+
+  <h2>GBF Tools</h2>
+
+  <a href="index.html">TOP</a>
+  <a href="stone.html">天井計算機</a>
+  <a href="meat.html">肉消費計算機</a>
+  <a href="speed.html">時速換算</a>
+  <a href="efficiency.html">HELL効率比較</a>
+
+</div>
+
+<div class="main">
+
+  <div class="card">
+
+    <h1>HELL効率比較ツール</h1>
+
+    <div class="grid">
+
+      <div class="field">
+        <label>90HELL</label>
+        <div class="time_input">
+          <input type="number" id="hell90m" min="0" placeholder="分" oninput="calcEfficiency()">
+          <span>:</span>
+          <input type="number" id="hell90s" min="0" max="59" placeholder="秒" oninput="calcEfficiency()">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>95HELL</label>
+        <div class="time_input">
+          <input type="number" id="hell95m" min="0" placeholder="分" oninput="calcEfficiency()">
+          <span>:</span>
+          <input type="number" id="hell95s" min="0" max="59" placeholder="秒" oninput="calcEfficiency()">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>100HELL</label>
+        <div class="time_input">
+          <input type="number" id="hell100m" min="0" placeholder="分" oninput="calcEfficiency()">
+          <span>:</span>
+          <input type="number" id="hell100s" min="0" max="59" placeholder="秒" oninput="calcEfficiency()">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>150HELL</label>
+        <div class="time_input">
+          <input type="number" id="hell150m" min="0" placeholder="分" oninput="calcEfficiency()">
+          <span>:</span>
+          <input type="number" id="hell150s" min="0" max="59" placeholder="秒" oninput="calcEfficiency()">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>200HELL</label>
+        <div class="time_input">
+          <input type="number" id="hell200m" min="0" placeholder="分" oninput="calcEfficiency()">
+          <span>:</span>
+          <input type="number" id="hell200s" min="0" max="59" placeholder="秒" oninput="calcEfficiency()">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>250HELL</label>
+        <div class="time_input">
+          <input type="number" id="hell250m" min="0" placeholder="分" oninput="calcEfficiency()">
+          <span>:</span>
+          <input type="number" id="hell250s" min="0" max="59" placeholder="秒" oninput="calcEfficiency()">
+        </div>
+      </div>
+
+    </div>
+
+    <div class="button_area">
+
+      <button
+        class="action_btn"
+        onclick="calcEfficiency()"
+      >
+        計算
+      </button>
+
+      <button
+        class="action_btn reset_btn"
+        onclick="resetEfficiency()"
+      >
+        リセット
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>結果</h2>
+
+    <div id="result"></div>
+
+  </div>
+
+</div>
+
+<script src="assets/js/cmn.js"></script>
+<script src="assets/js/efficiency.js"></script>
+
+</body>
+</html>
