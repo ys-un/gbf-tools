@@ -573,3 +573,89 @@ body{
   font-size:14px;
   opacity:.7;
 }
+/* =========================
+   ログイン・クラウド同期
+========================= */
+.auth_box{
+  margin-top:28px;
+  padding-top:20px;
+  border-top:1px solid rgba(255,255,255,.1);
+}
+
+.auth_login_btn,
+.auth_logout_btn{
+  width:100%;
+  border:0;
+  border-radius:10px;
+  padding:11px 12px;
+  font-size:14px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.auth_login_btn{
+  background:#fff;
+  color:#0f172a;
+}
+
+.auth_logout_btn{
+  margin-top:10px;
+  background:#334155;
+  color:#fff;
+}
+
+.auth_login_btn:disabled,
+.auth_logout_btn:disabled{
+  opacity:.55;
+  cursor:wait;
+}
+
+.auth_user{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+}
+
+.auth_user_photo{
+  width:32px;
+  height:32px;
+  flex-shrink:0;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.auth_user_name{
+  min-width:0;
+  overflow:hidden;
+  color:#fff;
+  font-size:14px;
+  font-weight:bold;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.auth_message{
+  margin:10px 0 0;
+  color:#94a3b8;
+  font-size:11px;
+  line-height:1.5;
+}
+
+.auth_message.is_syncing{
+  color:#38bdf8;
+}
+
+.auth_message.is_success{
+  color:#4ade80;
+}
+
+.auth_message.is_error{
+  color:#f87171;
+}
+
+@media(max-width:768px){
+  .auth_box{
+    margin-top:18px;
+  }
+}
