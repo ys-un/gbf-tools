@@ -1300,6 +1300,18 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
     box-shadow .18s ease;
 }
 
+@media(max-width:768px){
+
+  .auth_floating_toggle{
+      transition:
+          transform .18s ease,
+          border-color .18s ease,
+          background-color .18s ease,
+          box-shadow .18s ease;
+  }
+
+}
+
 .auth_floating_toggle:hover{
   transform:translateY(-2px);
   background:#273449;
