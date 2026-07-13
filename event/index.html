@@ -27,19 +27,6 @@
   <a href="../speed.html">時速換算</a>
   <a href="../efficiency.html">HELL効率比較</a>
   <a href="./">イベント戦貨計算機</a>
-
-  <div class="auth_box">
-    <button type="button" class="auth_login_btn" id="googleLoginBtn">Googleでログイン</button>
-
-    <div class="auth_user" id="authUser" hidden>
-      <img class="auth_user_photo" id="authUserPhoto" alt="" hidden>
-      <span class="auth_user_name" id="authUserName"></span>
-    </div>
-
-    <button type="button" class="auth_logout_btn" id="logoutBtn" hidden>ログアウト</button>
-
-    <p class="auth_message" id="authMessage">未ログイン：この端末に保存されます</p>
-  </div>
 </div>
 
 <main class="main">
@@ -204,5 +191,33 @@
 <script src="../assets/js/cmn.js"></script>
 <script type="module" src="../assets/js/firebase.js"></script>
 <script src="../assets/js/event.js"></script>
+<div class="auth_floating" id="authFloating">
+  <div class="auth_panel" id="authPanel" hidden>
+    <button type="button" class="auth_login_btn" id="googleLoginBtn">
+      Googleでログイン
+    </button>
+
+    <div class="auth_user" id="authUser" hidden>
+      <img class="auth_user_photo" id="authUserPhoto" alt="" hidden>
+      <span class="auth_user_name" id="authUserName"></span>
+    </div>
+
+    <button type="button" class="auth_logout_btn" id="logoutBtn" hidden>
+      ログアウト
+    </button>
+
+    <p class="auth_message" id="authMessage">
+      未ログイン：この端末に保存されます
+    </p>
+  </div>
+
+  <button type="button" class="auth_floating_toggle" id="authToggle" aria-controls="authPanel" aria-expanded="false" aria-label="ログイン・同期状況を表示">
+    <span class="auth_status_dot" id="authStatusDot" aria-hidden="true"></span>
+    <img class="auth_mini_photo" id="authMiniPhoto" alt="" hidden>
+    <span class="auth_compact_text" id="authCompactText">Googleでログイン</span>
+    <span class="auth_toggle_chevron" aria-hidden="true">⌃</span>
+  </button>
+</div>
+
 </body>
 </html>

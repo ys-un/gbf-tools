@@ -1198,3 +1198,217 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
     font-size:20px;
   }
 }
+
+/* =========================
+   追従型ログイン・同期パネル
+========================= */
+
+.auth_floating{
+  position:fixed;
+  left:20px;
+  bottom:20px;
+  z-index:2000;
+
+  width:min(300px, calc(100vw - 32px));
+
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:10px;
+}
+
+.auth_floating_toggle{
+  min-height:48px;
+  max-width:100%;
+  padding:8px 12px;
+
+  display:flex;
+  align-items:center;
+  gap:9px;
+
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:999px;
+
+  background:rgba(15,23,42,.94);
+  color:#fff;
+
+  box-shadow:
+    0 12px 34px rgba(0,0,0,.38),
+    inset 0 1px 0 rgba(255,255,255,.04);
+
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+
+  cursor:pointer;
+
+  transition:
+    transform .2s,
+    border-color .2s,
+    background-color .2s,
+    box-shadow .2s;
+}
+
+.auth_floating_toggle:hover{
+  transform:translateY(-1px);
+  border-color:rgba(56,189,248,.45);
+  background:rgba(30,41,59,.97);
+  box-shadow:
+    0 15px 38px rgba(0,0,0,.44),
+    0 0 0 3px rgba(56,189,248,.08);
+}
+
+.auth_floating_toggle:focus-visible{
+  outline:none;
+  border-color:#38bdf8;
+  box-shadow:
+    0 15px 38px rgba(0,0,0,.44),
+    0 0 0 3px rgba(56,189,248,.2);
+}
+
+.auth_status_dot{
+  width:10px;
+  height:10px;
+  flex:0 0 10px;
+  border-radius:50%;
+  background:#94a3b8;
+  box-shadow:0 0 0 4px rgba(148,163,184,.12);
+}
+
+.auth_status_dot.is_success{
+  background:#4ade80;
+  box-shadow:0 0 0 4px rgba(74,222,128,.14);
+}
+
+.auth_status_dot.is_syncing{
+  background:#38bdf8;
+  box-shadow:0 0 0 4px rgba(56,189,248,.14);
+  animation:authStatusPulse 1s ease-in-out infinite;
+}
+
+.auth_status_dot.is_error{
+  background:#f87171;
+  box-shadow:0 0 0 4px rgba(248,113,113,.14);
+}
+
+@keyframes authStatusPulse{
+  0%,100%{
+    opacity:1;
+    transform:scale(1);
+  }
+  50%{
+    opacity:.5;
+    transform:scale(.78);
+  }
+}
+
+.auth_mini_photo{
+  width:30px;
+  height:30px;
+  flex:0 0 30px;
+  border-radius:50%;
+  object-fit:cover;
+  border:1px solid rgba(255,255,255,.72);
+}
+
+.auth_compact_text{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+
+  color:#e2e8f0;
+  font-size:13px;
+  font-weight:700;
+}
+
+.auth_toggle_chevron{
+  color:#94a3b8;
+  font-size:13px;
+  line-height:1;
+  transition:transform .2s;
+}
+
+.auth_floating.is_open .auth_toggle_chevron{
+  transform:rotate(180deg);
+}
+
+.auth_panel{
+  width:100%;
+  padding:14px;
+
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:18px;
+
+  background:rgba(2,6,23,.97);
+  box-shadow:
+    0 18px 50px rgba(0,0,0,.48),
+    inset 0 1px 0 rgba(255,255,255,.04);
+
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+
+  transform-origin:bottom right;
+  animation:authPanelOpen .18s ease-out;
+}
+
+@keyframes authPanelOpen{
+  from{
+    opacity:0;
+    transform:translateY(8px) scale(.98);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+.auth_panel .auth_login_btn{
+  margin:0;
+}
+
+.auth_panel .auth_user{
+  padding:12px;
+}
+
+.auth_panel .auth_logout_btn{
+  margin-top:10px;
+}
+
+.auth_panel .auth_message{
+  margin:10px 2px 0;
+}
+
+@media(max-width:768px){
+
+  .main{
+    padding-bottom:92px;
+  }
+
+  .auth_floating{
+    right:12px;
+    bottom:12px;
+    width:min(286px, calc(100vw - 24px));
+  }
+
+  .auth_floating_toggle{
+    min-height:46px;
+    padding:7px 10px;
+  }
+
+  .auth_compact_text{
+    max-width:150px;
+    font-size:12px;
+  }
+
+  .auth_mini_photo{
+    width:28px;
+    height:28px;
+    flex-basis:28px;
+  }
+
+  .auth_panel{
+    padding:12px;
+    border-radius:16px;
+  }
+
+}

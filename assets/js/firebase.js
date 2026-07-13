@@ -67,24 +67,92 @@ const userPhoto =
 const authMessage =
   document.getElementById("authMessage");
 
+const authFloating =
+  document.getElementById("authFloating");
+
+const authToggle =
+  document.getElementById("authToggle");
+
+const authPanel =
+  document.getElementById("authPanel");
+
+const authCompactText =
+  document.getElementById("authCompactText");
+
+const authStatusDot =
+  document.getElementById("authStatusDot");
+
+const authMiniPhoto =
+  document.getElementById("authMiniPhoto");
+
+
+function updateCompactStatus(
+  message,
+  type = ""
+){
+
+  if(authCompactText){
+
+    if(!currentUser){
+
+      authCompactText.textContent =
+        type === "is_syncing"
+          ? message
+          : "Googleでログイン";
+
+    }else if(type === "is_syncing"){
+
+      authCompactText.textContent = message;
+
+    }else if(type === "is_error"){
+
+      authCompactText.textContent = "同期エラー";
+
+    }else{
+
+      authCompactText.textContent = "クラウド同期済み";
+
+    }
+
+  }
+
+  if(authStatusDot){
+
+    authStatusDot.className = "auth_status_dot";
+
+    if(type === "is_syncing"){
+      authStatusDot.classList.add("is_syncing");
+    }else if(type === "is_error"){
+      authStatusDot.classList.add("is_error");
+    }else if(currentUser){
+      authStatusDot.classList.add("is_success");
+    }
+
+  }
+
+}
+
 
 function setAuthMessage(
   message,
   type = ""
 ){
 
-  if(!authMessage){
-    return;
+  if(authMessage){
+
+    authMessage.textContent = message;
+
+    authMessage.className =
+      `auth_message${type ? ` ${type}` : ""}`;
+
   }
 
-  authMessage.textContent =
-    message;
-
-  authMessage.className =
-    `auth_message${type ? ` ${type}` : ""}`;
+  updateCompactStatus(
+    message,
+    type
+  );
 
 }
-
 
 function resetUserDisplay(){
 
@@ -99,6 +167,14 @@ function resetUserDisplay(){
     userPhoto.removeAttribute("src");
     userPhoto.removeAttribute("alt");
     userPhoto.hidden = true;
+
+  }
+
+  if(authMiniPhoto){
+
+    authMiniPhoto.removeAttribute("src");
+    authMiniPhoto.removeAttribute("alt");
+    authMiniPhoto.hidden = true;
 
   }
 
@@ -147,6 +223,24 @@ function updateAuthUI(user){
         userPhoto.removeAttribute("src");
         userPhoto.removeAttribute("alt");
         userPhoto.hidden = true;
+
+      }
+
+    }
+
+    if(authMiniPhoto){
+
+      if(user.photoURL){
+
+        authMiniPhoto.src = user.photoURL;
+        authMiniPhoto.alt = `${user.displayName || "ユーザー"}のプロフィール画像`;
+        authMiniPhoto.hidden = false;
+
+      }else{
+
+        authMiniPhoto.removeAttribute("src");
+        authMiniPhoto.removeAttribute("alt");
+        authMiniPhoto.hidden = true;
 
       }
 
@@ -475,6 +569,68 @@ window.GBFCloud = {
 };
 
 
+function setAuthPanelOpen(isOpen){
+
+  if(!authPanel || !authToggle){
+    return;
+  }
+
+  authPanel.hidden = !isOpen;
+  authToggle.setAttribute(
+    "aria-expanded",
+    String(isOpen)
+  );
+
+  authFloating?.classList.toggle(
+    "is_open",
+    isOpen
+  );
+
+}
+
+
+authToggle?.addEventListener(
+  "click",
+  event=>{
+
+    event.stopPropagation();
+
+    setAuthPanelOpen(
+      authPanel?.hidden ?? true
+    );
+
+  }
+);
+
+
+authPanel?.addEventListener(
+  "click",
+  event=>{
+    event.stopPropagation();
+  }
+);
+
+
+document.addEventListener(
+  "click",
+  ()=>{
+    setAuthPanelOpen(false);
+  }
+);
+
+
+document.addEventListener(
+  "keydown",
+  event=>{
+
+    if(event.key === "Escape"){
+      setAuthPanelOpen(false);
+    }
+
+  }
+);
+
+
 document.dispatchEvent(
   new CustomEvent(
     "gbf-cloud-api-ready"
@@ -569,6 +725,7 @@ logoutButton?.addEventListener(
 
       resetUserDisplay();
       updateAuthUI(null);
+      setAuthPanelOpen(false);
 
     }catch(error){
 
