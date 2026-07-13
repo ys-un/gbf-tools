@@ -76,113 +76,89 @@ const authToggle =
 const authPanel =
   document.getElementById("authPanel");
 
-const authCompactText =
-  document.getElementById("authCompactText");
-
 const authStatusDot =
   document.getElementById("authStatusDot");
 
 const authMiniPhoto =
   document.getElementById("authMiniPhoto");
 
-let compactStatusTimer = null;
+const authLoginText =
+  document.getElementById("authLoginText");
 
 
-function setCompactMode({ text = "", status = false } = {}){
+function revealAuthUI(){
 
-  if(authCompactText){
-    authCompactText.textContent = text;
-  }
-
-  if(authFloating){
-    authFloating.classList.toggle("has_status", status);
-  }
-
-}
-
-
-function restoreCompactText(){
-
-  if(compactStatusTimer){
-    clearTimeout(compactStatusTimer);
-    compactStatusTimer = null;
-  }
-
-  if(currentUser){
-
-    setCompactMode({
-      text:"",
-      status:false
-    });
-
-  }else{
-
-    setCompactMode({
-      text:"Googleでログイン",
-      status:true
-    });
-
-  }
-
-}
-
-
-function updateCompactStatus(message, type = ""){
-
-  if(authStatusDot){
-
-    authStatusDot.className = "auth_status_dot";
-
-    if(type === "is_syncing"){
-      authStatusDot.classList.add("is_syncing");
-    }else if(type === "is_error"){
-      authStatusDot.classList.add("is_error");
-    }else if(currentUser){
-      authStatusDot.classList.add("is_success");
-    }
-
-  }
-
-  if(!currentUser){
-    restoreCompactText();
+  if(!authFloating){
     return;
   }
 
-  if(compactStatusTimer){
-    clearTimeout(compactStatusTimer);
-    compactStatusTimer = null;
+  requestAnimationFrame(()=>{
+    authFloating.classList.remove("is_auth_loading");
+  });
+
+}
+
+
+function updateCompactStatus(type = ""){
+
+  if(!authToggle){
+    return;
+  }
+
+  authToggle.classList.remove(
+    "is_logged_out",
+    "is_success",
+    "is_syncing",
+    "is_error"
+  );
+
+  if(authStatusDot){
+    authStatusDot.className = "auth_status_dot";
+  }
+
+  if(!currentUser){
+
+    if(authStatusDot){
+      authStatusDot.hidden = true;
+    }
+
+    authToggle.classList.add("is_logged_out");
+    authToggle.setAttribute("aria-label", "Googleでログイン");
+
+    if(authLoginText){
+      authLoginText.hidden = false;
+    }
+
+    return;
+  }
+
+  if(authLoginText){
+    authLoginText.hidden = true;
+  }
+
+  if(authStatusDot){
+    authStatusDot.hidden = false;
   }
 
   if(type === "is_syncing"){
 
-    setCompactMode({
-      text:message,
-      status:true
-    });
+    authToggle.classList.add("is_syncing");
+    authStatusDot?.classList.add("is_syncing");
+    authToggle.setAttribute("aria-label", "保存中。アカウント情報を表示");
 
-    return;
+  }else if(type === "is_error"){
 
-  }
+    authToggle.classList.add("is_error");
+    authStatusDot?.classList.add("is_error");
+    authToggle.setAttribute("aria-label", "同期エラー。アカウント情報を表示");
 
-  if(type === "is_error"){
+  }else{
 
-    setCompactMode({
-      text:"同期エラー",
-      status:true
-    });
-
-    return;
+    authToggle.classList.add("is_success");
+    authStatusDot?.classList.add("is_success");
+    authToggle.setAttribute("aria-label", "ログイン中。アカウント情報を表示");
 
   }
-
-  setCompactMode({
-    text:message,
-    status:true
-  });
-
-  compactStatusTimer = setTimeout(()=>{
-    restoreCompactText();
-  }, 2200);
 
 }
 
@@ -201,7 +177,7 @@ function setAuthMessage(
 
   }
 
-  updateCompactStatus(message, type);
+  updateCompactStatus(type);
 
 }
 
@@ -241,11 +217,6 @@ function updateAuthUI(user){
     !userArea
   ){
     return;
-  }
-
-  if(authFloating){
-    authFloating.classList.toggle("is_logged_in", Boolean(user));
-    authFloating.classList.toggle("is_logged_out", !user);
   }
 
   if(user){
@@ -298,6 +269,7 @@ function updateAuthUI(user){
         authMiniPhoto.removeAttribute("src");
         authMiniPhoto.removeAttribute("alt");
         authMiniPhoto.hidden = true;
+
 
       }
 
@@ -806,6 +778,7 @@ onAuthStateChanged(
     authInitialized = true;
 
     updateAuthUI(user);
+    revealAuthUI();
 
     document.dispatchEvent(
       new CustomEvent(

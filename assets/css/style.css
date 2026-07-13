@@ -1226,7 +1226,7 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
 ========================= */
 
 .auth_floating{
-  width:auto;
+  width:220px;
   position:fixed;
   left:20px;
   bottom:18px;
@@ -1236,78 +1236,90 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
   flex-direction:column;
   align-items:flex-start;
   gap:10px;
+
+  opacity:1;
+  visibility:visible;
+
+  transition:
+    opacity .18s ease,
+    visibility .18s ease;
+}
+
+.auth_floating.is_auth_loading{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
 }
 
 .auth_floating_toggle{
-  width:190px;
-  min-height:48px;
-  padding:8px 11px;
+  min-width:80px;
+  width:80px;
+  height:50px;
+  padding:0 14px;
 
   display:flex;
   align-items:center;
-  gap:9px;
+  justify-content:center;
+  gap:10px;
 
-  border:1px solid rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.18);
   border-radius:25px;
 
-  background:rgba(15,23,42,.96);
-  color:#fff;
+  background:#fff;
+  color:#0f172a;
 
   box-shadow:
-    0 12px 34px rgba(0,0,0,.38),
-    inset 0 1px 0 rgba(255,255,255,.04);
-
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
+    0 10px 28px rgba(0,0,0,.32),
+    inset 0 1px 0 rgba(255,255,255,.35);
 
   cursor:pointer;
-  overflow:hidden;
 
   transition:
-    width .2s ease,
-    padding .2s ease,
-    transform .18s,
-    border-color .18s,
-    background-color .18s,
-    box-shadow .18s;
+    transform .18s ease,
+    border-color .18s ease,
+    background-color .18s ease,
+    box-shadow .18s ease;
 }
 
 .auth_floating_toggle:hover{
-  transform:translateY(-1px);
-  border-color:rgba(56,189,248,.42);
-  background:rgba(30,41,59,.98);
+  transform:translateY(-2px);
+  box-shadow:
+    0 14px 32px rgba(0,0,0,.38),
+    inset 0 1px 0 rgba(255,255,255,.35);
+}
+
+.auth_floating_toggle:active{
+  transform:translateY(0);
 }
 
 .auth_floating_toggle:focus-visible{
   outline:none;
-  border-color:#38bdf8;
   box-shadow:
-    0 12px 34px rgba(0,0,0,.42),
-    0 0 0 3px rgba(56,189,248,.18);
+    0 10px 28px rgba(0,0,0,.35),
+    0 0 0 3px rgba(56,189,248,.22);
 }
 
-/* ログイン中かつ通常時は、緑の丸とアイコンだけ表示 */
-.auth_floating.is_logged_in:not(.has_status) .auth_floating_toggle{
-  width:62px;
-  min-height:46px;
-  padding:8px;
-  gap:7px;
-  justify-content:center;
-  min-width: 80px;
+.auth_floating_toggle.is_logged_out{
+  background:#fff;
+  border-color:rgba(255,255,255,.7);
 }
 
-.auth_floating.is_logged_in:not(.has_status) .auth_compact_text,
-.auth_floating.is_logged_in:not(.has_status) .auth_toggle_chevron{
-  display:none;
+.auth_floating_toggle.is_success{
+  background:#166534;
+  border-color:rgba(74,222,128,.55);
+  color:#fff;
 }
 
-/* 保存中・保存完了・エラー表示中は一時的に横へ広げる */
-.auth_floating.is_logged_in.has_status .auth_floating_toggle{
-  width:190px;
+.auth_floating_toggle.is_syncing{
+  background:#0369a1;
+  border-color:rgba(56,189,248,.65);
+  color:#fff;
 }
 
-.auth_floating.is_logged_in.has_status .auth_toggle_chevron{
-  display:none;
+.auth_floating_toggle.is_error{
+  background:#991b1b;
+  border-color:rgba(248,113,113,.65);
+  color:#fff;
 }
 
 .auth_status_dot{
@@ -1316,23 +1328,23 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
   flex:0 0 9px;
   border-radius:50%;
   background:#94a3b8;
-  box-shadow:0 0 0 4px rgba(148,163,184,.11);
+  box-shadow:0 0 0 4px rgba(148,163,184,.14);
 }
 
 .auth_status_dot.is_success{
   background:#4ade80;
-  box-shadow:0 0 0 4px rgba(74,222,128,.13);
+  box-shadow:0 0 0 4px rgba(74,222,128,.18);
 }
 
 .auth_status_dot.is_syncing{
-  background:#38bdf8;
-  box-shadow:0 0 0 4px rgba(56,189,248,.13);
+  background:#7dd3fc;
+  box-shadow:0 0 0 4px rgba(125,211,252,.18);
   animation:authStatusPulse 1s ease-in-out infinite;
 }
 
 .auth_status_dot.is_error{
-  background:#f87171;
-  box-shadow:0 0 0 4px rgba(248,113,113,.13);
+  background:#fca5a5;
+  box-shadow:0 0 0 4px rgba(252,165,165,.18);
 }
 
 @keyframes authStatusPulse{
@@ -1351,32 +1363,12 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
   height:28px;
   flex:0 0 28px;
   border-radius:50%;
+}
+
+
+.auth_mini_photo{
   object-fit:cover;
-  border:1px solid rgba(255,255,255,.72);
-}
-
-.auth_compact_text{
-  min-width:0;
-  flex:1;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-
-  color:#e2e8f0;
-  font-size:12px;
-  font-weight:700;
-  text-align:left;
-}
-
-.auth_toggle_chevron{
-  color:#94a3b8;
-  font-size:12px;
-  line-height:1;
-  transition:transform .18s;
-}
-
-.auth_floating.is_open .auth_toggle_chevron{
-  transform:rotate(180deg);
+  border:1px solid rgba(255,255,255,.8);
 }
 
 .auth_panel{
@@ -1437,21 +1429,62 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
   }
 
   .auth_floating{
+    width:220px;
     left:12px;
     bottom:12px;
   }
 
   .auth_floating_toggle{
-    min-height:46px;
-  }
-
-  .auth_floating.is_logged_in:not(.has_status) .auth_floating_toggle{
-    width:60px;
+    min-width:80px;
+    width:80px;
+    height:50px;
   }
 
   .auth_panel{
     width:min(252px, calc(100vw - 24px));
     padding:12px;
+  }
+
+}
+
+/* =========================
+   未ログイン時のログイン案内
+========================= */
+
+.auth_login_text{
+  display:inline-block;
+  white-space:nowrap;
+  font-size:14px;
+  font-weight:700;
+  line-height:1;
+}
+
+.auth_login_text[hidden]{
+  display:none !important;
+}
+
+.auth_floating_toggle.is_logged_out{
+  width:auto;
+  min-width:170px;
+  padding:0 18px;
+}
+
+.auth_floating_toggle:not(.is_logged_out){
+  width:80px;
+  min-width:80px;
+  padding:0 14px;
+}
+
+@media(max-width:768px){
+
+  .auth_floating_toggle.is_logged_out{
+    width:auto;
+    min-width:170px;
+  }
+
+  .auth_floating_toggle:not(.is_logged_out){
+    width:80px;
+    min-width:80px;
   }
 
 }

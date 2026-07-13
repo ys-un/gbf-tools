@@ -152,7 +152,7 @@
 <script type="module" src="assets/js/firebase.js"></script>
 <script src="assets/js/meat.js"></script>
 
-<div class="auth_floating" id="authFloating">
+<div class="auth_floating is_auth_loading" id="authFloating">
   <div class="auth_panel" id="authPanel" hidden>
     <button type="button" class="auth_login_btn" id="googleLoginBtn">
       Googleでログイン
@@ -180,10 +180,9 @@
     aria-expanded="false"
     aria-label="ログイン・同期状況を表示"
   >
-    <span class="auth_status_dot" id="authStatusDot" aria-hidden="true"></span>
+    <span class="auth_status_dot" id="authStatusDot" aria-hidden="true" hidden></span>
     <img class="auth_mini_photo" id="authMiniPhoto" alt="" hidden>
-    <span class="auth_compact_text" id="authCompactText">Googleでログイン</span>
-    <span class="auth_toggle_chevron" aria-hidden="true">⌃</span>
+    <span class="auth_login_text" id="authLoginText">Googleでログイン</span>
   </button>
 </div>
 
