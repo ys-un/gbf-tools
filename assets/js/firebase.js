@@ -82,6 +82,12 @@ const authStatusDot =
 const authMiniPhoto =
   document.getElementById("authMiniPhoto");
 
+const authAvatarWrap =
+  document.getElementById("authAvatarWrap");
+
+const authGoogleMark =
+  document.getElementById("authGoogleMark");
+
 const authLoginText =
   document.getElementById("authLoginText");
 
@@ -107,6 +113,7 @@ function updateCompactStatus(type = ""){
 
   authToggle.classList.remove(
     "is_logged_out",
+    "is_logged_in",
     "is_success",
     "is_syncing",
     "is_error"
@@ -118,26 +125,36 @@ function updateCompactStatus(type = ""){
 
   if(!currentUser){
 
-    if(authStatusDot){
-      authStatusDot.hidden = true;
-    }
-
     authToggle.classList.add("is_logged_out");
     authToggle.setAttribute("aria-label", "Googleでログイン");
+
+    if(authGoogleMark){
+      authGoogleMark.hidden = false;
+    }
 
     if(authLoginText){
       authLoginText.hidden = false;
     }
 
+    if(authAvatarWrap){
+      authAvatarWrap.hidden = true;
+    }
+
     return;
+  }
+
+  authToggle.classList.add("is_logged_in");
+
+  if(authGoogleMark){
+    authGoogleMark.hidden = true;
   }
 
   if(authLoginText){
     authLoginText.hidden = true;
   }
 
-  if(authStatusDot){
-    authStatusDot.hidden = false;
+  if(authAvatarWrap){
+    authAvatarWrap.hidden = false;
   }
 
   if(type === "is_syncing"){
