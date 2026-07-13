@@ -1228,8 +1228,6 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
 .auth_floating{
   width:220px;
   position:fixed;
-  left:20px;
-  bottom:18px;
   z-index:1200;
 
   display:flex;
@@ -1243,6 +1241,16 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
   transition:
     opacity .18s ease,
     visibility .18s ease;
+}
+
+/* PCでの配置 */
+@media(min-width:769px){
+  .auth_floating{
+    top:auto;
+    right:auto;
+    bottom:18px;
+    left:20px;
+  }
 }
 
 .auth_floating.is_auth_loading{
@@ -1453,12 +1461,6 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
 
   .main{
     padding-bottom:88px;
-  }
-
-  .auth_floating{
-    width:220px;
-    left:12px;
-    bottom:12px;
   }
 
   .auth_floating_toggle{

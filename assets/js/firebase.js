@@ -102,7 +102,9 @@ function revealAuthUI(){
   }
 
   requestAnimationFrame(()=>{
-    authFloating.classList.remove("is_auth_loading");
+    requestAnimationFrame(()=>{
+      authFloating.classList.remove("is_auth_loading");
+    });
   });
 
 }
