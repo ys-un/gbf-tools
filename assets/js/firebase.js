@@ -104,6 +104,7 @@ function revealAuthUI(){
   requestAnimationFrame(()=>{
     requestAnimationFrame(()=>{
       authFloating.classList.remove("is_auth_loading");
+      authFloating.classList.add("is_auth_ready");
     });
   });
 
