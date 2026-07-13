@@ -91,6 +91,9 @@ const authGoogleMark =
 const authLoginText =
   document.getElementById("authLoginText");
 
+const authCompactName =
+  document.getElementById("authCompactName");
+
 
 function revealAuthUI(){
 
@@ -140,6 +143,11 @@ function updateCompactStatus(type = ""){
       authAvatarWrap.hidden = true;
     }
 
+    if(authCompactName){
+      authCompactName.textContent = "";
+      authCompactName.hidden = true;
+    }
+
     return;
   }
 
@@ -155,6 +163,14 @@ function updateCompactStatus(type = ""){
 
   if(authAvatarWrap){
     authAvatarWrap.hidden = false;
+  }
+
+  if(authCompactName){
+    authCompactName.textContent =
+      currentUser.displayName ||
+      currentUser.email ||
+      "ログイン中";
+    authCompactName.hidden = false;
   }
 
   if(type === "is_syncing"){
@@ -221,6 +237,11 @@ function resetUserDisplay(){
     authMiniPhoto.removeAttribute("alt");
     authMiniPhoto.hidden = true;
 
+  }
+
+  if(authCompactName){
+    authCompactName.textContent = "";
+    authCompactName.hidden = true;
   }
 
 }

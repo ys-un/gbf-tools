@@ -1515,3 +1515,54 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
   }
 
 }
+
+
+/* =========================
+   ログインボタン最終調整
+   ログイン時：アイコン＋名前
+========================= */
+.auth_compact_name{
+  min-width:0;
+  max-width:140px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:#fff;
+  font-size:14px;
+  font-weight:700;
+  line-height:1;
+  text-align:left;
+}
+
+.auth_compact_name[hidden]{
+  display:none !important;
+}
+
+.auth_floating_toggle.is_logged_in,
+.auth_floating_toggle:not(.is_logged_out){
+  width:auto;
+  min-width:130px;
+  max-width:220px;
+  padding:0 16px;
+  justify-content:flex-start;
+}
+
+.auth_floating_toggle.is_logged_out{
+  width:auto;
+  min-width:170px;
+  max-width:none;
+  justify-content:center;
+}
+
+@media(max-width:768px){
+  .auth_floating_toggle.is_logged_in,
+  .auth_floating_toggle:not(.is_logged_out){
+    width:auto;
+    min-width:130px;
+    max-width:min(220px, calc(100vw - 24px));
+  }
+
+  .auth_compact_name{
+    max-width:120px;
+  }
+}
