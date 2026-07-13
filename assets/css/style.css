@@ -1293,6 +1293,7 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
   padding:8px;
   gap:7px;
   justify-content:center;
+  min-width: 80px;
 }
 
 .auth_floating.is_logged_in:not(.has_status) .auth_compact_text,
