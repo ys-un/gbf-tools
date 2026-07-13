@@ -1654,3 +1654,53 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
   }
 
 }
+
+/* =========================
+   SPログイン中
+   枠・名前を非表示にしてアイコンのみ表示
+========================= */
+
+@media(max-width:768px){
+
+  .auth_floating_toggle.is_logged_in{
+    width:44px;
+    min-width:44px;
+    max-width:44px;
+    height:44px;
+    padding:0;
+
+    justify-content:center;
+    gap:0;
+
+    background:transparent;
+    border:none;
+    box-shadow:none;
+  }
+
+  .auth_floating_toggle.is_logged_in:hover{
+    background:transparent;
+    border:none;
+    box-shadow:none;
+    transform:none;
+  }
+
+  .auth_floating_toggle.is_logged_in:active{
+    transform:none;
+  }
+
+  .auth_floating_toggle.is_logged_in .auth_compact_name{
+    display:none !important;
+  }
+
+  .auth_floating_toggle.is_logged_in .auth_avatar_wrap{
+    width:36px;
+    height:36px;
+    flex-basis:36px;
+  }
+
+  .auth_floating_toggle.is_logged_in .auth_mini_photo{
+    width:36px;
+    height:36px;
+  }
+
+}
