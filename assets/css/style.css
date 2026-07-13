@@ -1566,3 +1566,79 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
     max-width:120px;
   }
 }
+
+/* =========================
+   SP固定ヘッダー
+   左：MENU／右：ログイン・アカウント
+========================= */
+@media(max-width:768px){
+
+  .mobile_header{
+    min-height:60px;
+    padding:8px 12px;
+    justify-content:flex-start;
+    position:sticky;
+    top:0;
+    z-index:1300;
+    background:rgba(2,6,23,.96);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+  }
+
+  .menu_btn{
+    min-height:44px;
+    padding:10px 14px;
+    border-radius:22px;
+  }
+
+  /* 下部固定を解除し、ヘッダー右上へ配置 */
+  .auth_floating{
+    width:auto;
+    position:fixed;
+    top:8px;
+    right:12px;
+    bottom:auto;
+    left:auto;
+    z-index:1400;
+    display:block;
+  }
+
+  .auth_floating_toggle{
+    height:44px;
+    min-height:44px;
+    box-shadow:0 6px 18px rgba(0,0,0,.28);
+  }
+
+  .auth_floating_toggle.is_logged_out{
+    min-width:170px;
+    padding:0 16px;
+  }
+
+  .auth_floating_toggle.is_logged_in,
+  .auth_floating_toggle:not(.is_logged_out){
+    min-width:130px;
+    max-width:min(210px, calc(100vw - 126px));
+    padding:0 14px;
+  }
+
+  .auth_compact_name{
+    max-width:min(118px, calc(100vw - 210px));
+  }
+
+  /* アカウントパネルはボタンの下へ展開 */
+  .auth_panel{
+    width:min(252px, calc(100vw - 24px));
+    position:absolute;
+    top:calc(100% + 8px);
+    right:0;
+    bottom:auto;
+    left:auto;
+    transform-origin:top right;
+  }
+
+  /* 左下固定用に確保していた余白を解除 */
+  .main{
+    padding-bottom:20px;
+  }
+
+}
