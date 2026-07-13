@@ -1573,14 +1573,26 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
 ========================= */
 @media(max-width:768px){
 
+  body{
+    padding-top:60px;
+  }
+
   .mobile_header{
+    width:100%;
+    height:60px;
     min-height:60px;
     padding:8px 12px;
     justify-content:flex-start;
-    position:sticky;
+
+    position:fixed;
     top:0;
+    right:0;
+    left:0;
+
     z-index:1300;
     background:rgba(2,6,23,.96);
+    border-bottom:1px solid rgba(255,255,255,.08);
+    box-shadow:0 6px 20px rgba(0,0,0,.18);
     backdrop-filter:blur(12px);
     -webkit-backdrop-filter:blur(12px);
   }
