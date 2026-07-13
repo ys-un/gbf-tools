@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>イベント戦貨計算機｜GBF Tools</title>
+
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="canonical" href="https://ys-un.github.io/gbf-tools/event/">
+</head>
+
+<body class="event_page">
+
+<div class="mobile_header">
+  <button class="menu_btn" onclick="toggleMenu()">☰ MENU</button>
+</div>
+
+<div class="sidebar" id="sidebar">
+  <h2>GBF Tools</h2>
+
+  <a href="../index.html">TOP</a>
+  <a href="../stone.html">天井計算機</a>
+  <a href="../meat.html">肉消費計算機</a>
+  <a href="../speed.html">時速換算</a>
+  <a href="../efficiency.html">HELL効率比較</a>
+  <a href="./">イベント戦貨計算機</a>
+
+  <div class="auth_box">
+    <button type="button" class="auth_login_btn" id="googleLoginBtn">Googleでログイン</button>
+
+    <div class="auth_user" id="authUser" hidden>
+      <img class="auth_user_photo" id="authUserPhoto" alt="" hidden>
+      <span class="auth_user_name" id="authUserName"></span>
+    </div>
+
+    <button type="button" class="auth_logout_btn" id="logoutBtn" hidden>ログアウト</button>
+
+    <p class="auth_message" id="authMessage">未ログイン：この端末に保存されます</p>
+  </div>
+</div>
+
+<main class="main">
+  <section class="card event_hero">
+    <h1>イベント戦貨計算機</h1>
+    <p class="event_lead">現在の箱・戦貨・トリガー・HELLストックから、20箱までに必要な周回数を自動計算します。</p>
+
+    <div class="event_progress_wrap">
+      <div class="event_progress_meta">
+        <span>目標までの進捗</span>
+        <strong id="progressPercent">0%</strong>
+      </div>
+      <div class="event_progress"><span id="progressBar"></span></div>
+      <p class="event_progress_text" id="progressText">0 / 40,666枚</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>目標・現在状況</h2>
+
+    <div class="event_form_grid">
+      <div class="field">
+        <label for="targetBoxes">目標箱数</label>
+        <select id="targetBoxes"></select>
+      </div>
+
+      <div class="field">
+        <label for="completedBoxes">開封済み箱数</label>
+        <select id="completedBoxes"></select>
+      </div>
+
+      <div class="field">
+        <label for="currentBoxRemaining">現在箱の残りガチャ回数</label>
+        <input type="number" id="currentBoxRemaining" min="0" placeholder="未着手なら空欄">
+        <small>ゲーム画面に表示される残り回数を入力。空欄は現在箱が未着手として計算します。</small>
+      </div>
+
+      <div class="field">
+        <label for="ownedTickets">所持戦貨</label>
+        <input type="number" id="ownedTickets" min="0" value="0">
+      </div>
+
+      <div class="field">
+        <label for="ownedTriggers">所持トリガー素材</label>
+        <input type="number" id="ownedTriggers" min="0" value="0">
+      </div>
+
+      <div class="field">
+        <label for="storedHell">貯まっているHELL</label>
+        <input type="number" id="storedHell" min="0" value="0">
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>今後受け取る報酬</h2>
+
+    <div class="event_check_grid">
+      <label class="event_check"><input type="checkbox" id="rewardHellMission" checked><span>HELL討伐ミッション</span><strong>+2,000枚</strong></label>
+      <label class="event_check"><input type="checkbox" id="rewardContribution" checked><span>貢献度報酬</span><strong>+1,000枚</strong></label>
+      <label class="event_check"><input type="checkbox" id="rewardDaily" checked><span>デイリーミッション</span><strong>+1,350枚</strong></label>
+      <label class="event_check"><input type="checkbox" id="rewardLogin" checked><span>ログインボーナス</span><strong>+450枚</strong></label>
+    </div>
+
+    <div class="event_form_grid _compact">
+      <div class="field">
+        <label for="extraTickets">その他の追加戦貨</label>
+        <input type="number" id="extraTickets" min="0" value="0">
+      </div>
+      <div class="field">
+        <label for="extraTriggers">その他の追加トリガー</label>
+        <input type="number" id="extraTriggers" min="0" value="0">
+      </div>
+      <div class="field">
+        <label for="freeBossRuns">AP・トリガー消費0の予定回数</label>
+        <input type="number" id="freeBossRuns" min="0" value="0">
+      </div>
+      <div class="field event_toggle_field">
+        <label class="event_switch"><input type="checkbox" id="includeHell" checked><span></span>今後出現するHELLを加味</label>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <details class="event_details">
+      <summary>周回条件・討伐時間を調整</summary>
+
+      <div class="event_settings_table_wrap">
+        <table class="event_settings_table">
+          <thead><tr><th>難易度</th><th>戦貨</th><th>AP</th><th>トリガー</th><th>討伐秒数</th></tr></thead>
+          <tbody>
+            <tr><th>VH</th><td><input type="number" id="vhTickets" value="31" min="0"></td><td><input type="number" id="vhAp" value="20" min="0"></td><td><input type="number" id="vhTriggerGain" value="3.5" min="0" step="0.1"></td><td><input type="number" id="timeVh" value="10" min="1"></td></tr>
+            <tr><th>EX</th><td><input type="number" id="exTickets" value="64" min="0"></td><td><input type="number" id="exAp" value="30" min="0"></td><td><input type="number" id="exTriggerCost" value="3" min="0"></td><td><input type="number" id="timeEx" value="15" min="1"></td></tr>
+            <tr><th>HL</th><td><input type="number" id="hlTickets" value="144" min="0"></td><td><input type="number" id="hlAp" value="40" min="0"></td><td><input type="number" id="hlTriggerCost" value="5" min="0"></td><td><input type="number" id="timeHl" value="60" min="1"></td></tr>
+            <tr><th>HELL</th><td><input type="number" id="hellTickets" value="100" min="0"></td><td>0</td><td><input type="number" id="hellTriggerGain" value="2" min="0"></td><td><input type="number" id="timeHell" value="10" min="1"></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="event_form_grid _compact">
+        <div class="field"><label for="hellRate">HELL出現期待値（1周あたり）</label><input type="number" id="hellRate" value="0.56" min="0" max="1" step="0.01"></div>
+        <div class="field"><label for="halfElixirAp">半汁1本の回復AP</label><input type="number" id="halfElixirAp" value="75" min="1"></div>
+        <div class="field"><label for="eventEnd">イベント終了日時</label><input type="datetime-local" id="eventEnd"></div>
+        <div class="field event_toggle_field"><label class="event_switch"><input type="checkbox" id="subtractNaturalAp"><span></span>自然回復APを差し引く</label></div>
+      </div>
+    </details>
+  </section>
+
+  <section class="card">
+    <div class="event_result_head">
+      <h2>計算結果</h2>
+      <button type="button" class="action_btn reset_btn" id="eventResetBtn">リセット</button>
+    </div>
+
+    <div class="event_summary_grid">
+      <div class="event_summary"><span>目標までの不足戦貨</span><strong id="missingTickets">0枚</strong></div>
+      <div class="event_summary"><span>今後の報酬反映後</span><strong id="effectiveMissingTickets">0枚</strong></div>
+      <div class="event_summary"><span>残り日数</span><strong id="remainingDays">未設定</strong></div>
+      <div class="event_summary"><span>必要トリガー目安</span><strong id="triggerGuide">0個</strong></div>
+    </div>
+
+    <div class="event_plan_grid">
+      <article class="event_plan" id="exPlan">
+        <div class="event_plan_title"><span>EX中心プラン</span><em id="exRecommend"></em></div>
+        <dl>
+          <div><dt>VH</dt><dd id="exVhRuns">0周</dd></div>
+          <div><dt>EX</dt><dd id="exBossRuns">0周</dd></div>
+          <div><dt>HELL</dt><dd id="exHellRuns">0回</dd></div>
+          <div><dt>追加必要トリガー</dt><dd id="exTriggerNeed">0個</dd></div>
+          <div><dt>必要AP</dt><dd id="exApNeed">0</dd></div>
+          <div><dt>半汁</dt><dd id="exHalfNeed">0本</dd></div>
+          <div><dt>所要時間</dt><dd id="exTimeNeed">0分</dd></div>
+          <div><dt>1日あたり</dt><dd id="exDaily">-</dd></div>
+        </dl>
+      </article>
+
+      <article class="event_plan" id="hlPlan">
+        <div class="event_plan_title"><span>HL中心プラン</span><em id="hlRecommend"></em></div>
+        <dl>
+          <div><dt>VH</dt><dd id="hlVhRuns">0周</dd></div>
+          <div><dt>HL</dt><dd id="hlBossRuns">0周</dd></div>
+          <div><dt>HELL</dt><dd id="hlHellRuns">0回</dd></div>
+          <div><dt>追加必要トリガー</dt><dd id="hlTriggerNeed">0個</dd></div>
+          <div><dt>必要AP</dt><dd id="hlApNeed">0</dd></div>
+          <div><dt>半汁</dt><dd id="hlHalfNeed">0本</dd></div>
+          <div><dt>所要時間</dt><dd id="hlTimeNeed">0分</dd></div>
+          <div><dt>1日あたり</dt><dd id="hlDaily">-</dd></div>
+        </dl>
+      </article>
+    </div>
+
+    <div class="event_notice" id="eventNotice"></div>
+  </section>
+
+  <section class="card event_reference">
+    <h2>計算基準</h2>
+    <p>初期値は、VH31枚・EX64枚・HL144枚・HELL100枚、VHのトリガー獲得期待値3.5個、EX消費3個、HL消費5個、HELL獲得2個として設定しています。イベントによって異なる場合は「周回条件・討伐時間を調整」から変更してください。</p>
+    <p>20箱の必要戦貨はSSRチケットありの40,666枚を基準にしています。</p>
+  </section>
+</main>
+
+<script src="../assets/js/cmn.js"></script>
+<script type="module" src="../assets/js/firebase.js"></script>
+<script src="../assets/js/event.js"></script>
+</body>
+</html>
