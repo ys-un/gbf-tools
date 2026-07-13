@@ -1600,7 +1600,7 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
   .menu_btn{
     min-height:44px;
     padding:10px 14px;
-    border-radius:22px;
+    border-radius:12px;
   }
 
   /* 下部固定を解除し、ヘッダー右上へ配置 */
