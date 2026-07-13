@@ -1226,7 +1226,7 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
 ========================= */
 
 .auth_floating{
-  width:220px;
+  width:auto;
   position:fixed;
   left:20px;
   bottom:18px;
@@ -1234,11 +1234,12 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
 
   display:flex;
   flex-direction:column;
+  align-items:flex-start;
   gap:10px;
 }
 
 .auth_floating_toggle{
-  width:100%;
+  width:190px;
   min-height:48px;
   padding:8px 11px;
 
@@ -1247,7 +1248,7 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
   gap:9px;
 
   border:1px solid rgba(255,255,255,.12);
-  border-radius:14px;
+  border-radius:25px;
 
   background:rgba(15,23,42,.96);
   color:#fff;
@@ -1260,8 +1261,11 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
   -webkit-backdrop-filter:blur(14px);
 
   cursor:pointer;
+  overflow:hidden;
 
   transition:
+    width .2s ease,
+    padding .2s ease,
     transform .18s,
     border-color .18s,
     background-color .18s,
@@ -1280,6 +1284,29 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
   box-shadow:
     0 12px 34px rgba(0,0,0,.42),
     0 0 0 3px rgba(56,189,248,.18);
+}
+
+/* ログイン中かつ通常時は、緑の丸とアイコンだけ表示 */
+.auth_floating.is_logged_in:not(.has_status) .auth_floating_toggle{
+  width:62px;
+  min-height:46px;
+  padding:8px;
+  gap:7px;
+  justify-content:center;
+}
+
+.auth_floating.is_logged_in:not(.has_status) .auth_compact_text,
+.auth_floating.is_logged_in:not(.has_status) .auth_toggle_chevron{
+  display:none;
+}
+
+/* 保存中・保存完了・エラー表示中は一時的に横へ広げる */
+.auth_floating.is_logged_in.has_status .auth_floating_toggle{
+  width:190px;
+}
+
+.auth_floating.is_logged_in.has_status .auth_toggle_chevron{
+  display:none;
 }
 
 .auth_status_dot{
@@ -1352,7 +1379,7 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
 }
 
 .auth_panel{
-  width:100%;
+  width:220px;
   padding:13px;
 
   border:1px solid rgba(255,255,255,.12);
@@ -1409,7 +1436,6 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
   }
 
   .auth_floating{
-    width:min(252px, calc(100vw - 24px));
     left:12px;
     bottom:12px;
   }
@@ -1418,7 +1444,12 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
     min-height:46px;
   }
 
+  .auth_floating.is_logged_in:not(.has_status) .auth_floating_toggle{
+    width:60px;
+  }
+
   .auth_panel{
+    width:min(252px, calc(100vw - 24px));
     padding:12px;
   }
 

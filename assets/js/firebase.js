@@ -88,13 +88,15 @@ const authMiniPhoto =
 let compactStatusTimer = null;
 
 
-function getCompactDefaultText(){
+function setCompactMode({ text = "", status = false } = {}){
 
-  if(!currentUser){
-    return "Googleでログイン";
+  if(authCompactText){
+    authCompactText.textContent = text;
   }
 
-  return currentUser.displayName || "ログイン中";
+  if(authFloating){
+    authFloating.classList.toggle("has_status", status);
+  }
 
 }
 
@@ -106,8 +108,20 @@ function restoreCompactText(){
     compactStatusTimer = null;
   }
 
-  if(authCompactText){
-    authCompactText.textContent = getCompactDefaultText();
+  if(currentUser){
+
+    setCompactMode({
+      text:"",
+      status:false
+    });
+
+  }else{
+
+    setCompactMode({
+      text:"Googleでログイン",
+      status:true
+    });
+
   }
 
 }
@@ -129,10 +143,6 @@ function updateCompactStatus(message, type = ""){
 
   }
 
-  if(!authCompactText){
-    return;
-  }
-
   if(!currentUser){
     restoreCompactText();
     return;
@@ -140,19 +150,35 @@ function updateCompactStatus(message, type = ""){
 
   if(compactStatusTimer){
     clearTimeout(compactStatusTimer);
+    compactStatusTimer = null;
   }
 
   if(type === "is_syncing"){
-    authCompactText.textContent = message;
+
+    setCompactMode({
+      text:message,
+      status:true
+    });
+
     return;
+
   }
 
   if(type === "is_error"){
-    authCompactText.textContent = "同期エラー";
+
+    setCompactMode({
+      text:"同期エラー",
+      status:true
+    });
+
     return;
+
   }
 
-  authCompactText.textContent = message;
+  setCompactMode({
+    text:message,
+    status:true
+  });
 
   compactStatusTimer = setTimeout(()=>{
     restoreCompactText();
@@ -215,6 +241,11 @@ function updateAuthUI(user){
     !userArea
   ){
     return;
+  }
+
+  if(authFloating){
+    authFloating.classList.toggle("is_logged_in", Boolean(user));
+    authFloating.classList.toggle("is_logged_out", !user);
   }
 
   if(user){
