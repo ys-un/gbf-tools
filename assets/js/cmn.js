@@ -50,3 +50,54 @@ function resetConfirm(){
   );
 
 }
+
+// 現在表示中のページをサイドバーで強調
+function setActiveNavigation(){
+
+  const currentPath = location.pathname.replace(/\/index\.html$/, "/");
+
+  document.querySelectorAll(".sidebar > a").forEach(link=>{
+
+    const linkPath = new URL(link.href, location.href)
+      .pathname
+      .replace(/\/index\.html$/, "/");
+
+    const isTopPage =
+      linkPath.endsWith("/gbf-tools/") &&
+      currentPath.endsWith("/gbf-tools/");
+
+    const isCurrentPage =
+      isTopPage ||
+      (!linkPath.endsWith("/gbf-tools/") && currentPath === linkPath);
+
+    link.classList.toggle("is_active", isCurrentPage);
+
+    if(isCurrentPage){
+      link.setAttribute("aria-current", "page");
+    }else{
+      link.removeAttribute("aria-current");
+    }
+
+  });
+
+}
+
+
+// SPメニュー内のリンクを押したらメニューを閉じる
+function setupMobileMenuLinks(){
+
+  document.querySelectorAll(".sidebar > a").forEach(link=>{
+
+    link.addEventListener("click",()=>{
+      document.getElementById("sidebar")?.classList.remove("active");
+    });
+
+  });
+
+}
+
+
+document.addEventListener("DOMContentLoaded",()=>{
+  setActiveNavigation();
+  setupMobileMenuLinks();
+});

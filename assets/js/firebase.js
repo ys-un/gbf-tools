@@ -85,36 +85,35 @@ const authStatusDot =
 const authMiniPhoto =
   document.getElementById("authMiniPhoto");
 
+let compactStatusTimer = null;
 
-function updateCompactStatus(
-  message,
-  type = ""
-){
+
+function getCompactDefaultText(){
+
+  if(!currentUser){
+    return "Googleでログイン";
+  }
+
+  return currentUser.displayName || "ログイン中";
+
+}
+
+
+function restoreCompactText(){
+
+  if(compactStatusTimer){
+    clearTimeout(compactStatusTimer);
+    compactStatusTimer = null;
+  }
 
   if(authCompactText){
-
-    if(!currentUser){
-
-      authCompactText.textContent =
-        type === "is_syncing"
-          ? message
-          : "Googleでログイン";
-
-    }else if(type === "is_syncing"){
-
-      authCompactText.textContent = message;
-
-    }else if(type === "is_error"){
-
-      authCompactText.textContent = "同期エラー";
-
-    }else{
-
-      authCompactText.textContent = "クラウド同期済み";
-
-    }
-
+    authCompactText.textContent = getCompactDefaultText();
   }
+
+}
+
+
+function updateCompactStatus(message, type = ""){
 
   if(authStatusDot){
 
@@ -129,6 +128,35 @@ function updateCompactStatus(
     }
 
   }
+
+  if(!authCompactText){
+    return;
+  }
+
+  if(!currentUser){
+    restoreCompactText();
+    return;
+  }
+
+  if(compactStatusTimer){
+    clearTimeout(compactStatusTimer);
+  }
+
+  if(type === "is_syncing"){
+    authCompactText.textContent = message;
+    return;
+  }
+
+  if(type === "is_error"){
+    authCompactText.textContent = "同期エラー";
+    return;
+  }
+
+  authCompactText.textContent = message;
+
+  compactStatusTimer = setTimeout(()=>{
+    restoreCompactText();
+  }, 2200);
 
 }
 
@@ -147,12 +175,10 @@ function setAuthMessage(
 
   }
 
-  updateCompactStatus(
-    message,
-    type
-  );
+  updateCompactStatus(message, type);
 
 }
+
 
 function resetUserDisplay(){
 
@@ -576,59 +602,38 @@ function setAuthPanelOpen(isOpen){
   }
 
   authPanel.hidden = !isOpen;
-  authToggle.setAttribute(
-    "aria-expanded",
-    String(isOpen)
-  );
-
-  authFloating?.classList.toggle(
-    "is_open",
-    isOpen
-  );
+  authToggle.setAttribute("aria-expanded", String(isOpen));
+  authFloating?.classList.toggle("is_open", isOpen);
 
 }
 
 
-authToggle?.addEventListener(
-  "click",
-  event=>{
+authToggle?.addEventListener("click", event=>{
 
-    event.stopPropagation();
+  event.stopPropagation();
 
-    setAuthPanelOpen(
-      authPanel?.hidden ?? true
-    );
+  setAuthPanelOpen(authPanel?.hidden ?? true);
 
-  }
-);
+});
 
 
-authPanel?.addEventListener(
-  "click",
-  event=>{
-    event.stopPropagation();
-  }
-);
+authPanel?.addEventListener("click", event=>{
+  event.stopPropagation();
+});
 
 
-document.addEventListener(
-  "click",
-  ()=>{
+document.addEventListener("click", ()=>{
+  setAuthPanelOpen(false);
+});
+
+
+document.addEventListener("keydown", event=>{
+
+  if(event.key === "Escape"){
     setAuthPanelOpen(false);
   }
-);
 
-
-document.addEventListener(
-  "keydown",
-  event=>{
-
-    if(event.key === "Escape"){
-      setAuthPanelOpen(false);
-    }
-
-  }
-);
+});
 
 
 document.dispatchEvent(
