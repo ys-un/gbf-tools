@@ -28,7 +28,7 @@
       const response = await fetch(DATA_URL, {cache:"no-store"});
       if(!response.ok) throw new Error(`HTTP ${response.status}`);
       const data = await response.json();
-      const events = data.months.flatMap(month => month.events).sort((a,b) => parse(a.start) - parse(b.start));
+      const events = (data.events || []).slice().sort((a,b) => parse(a.start) - parse(b.start));
       const now = new Date();
       const active = events.filter(event => parse(event.start) <= now && parse(event.end) >= now).sort((a,b) => parse(a.end) - parse(b.end));
       const next = events.find(event => parse(event.start) > now);
