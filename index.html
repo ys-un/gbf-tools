@@ -7,7 +7,7 @@
 
 <title>GBF Tools</title>
 
-<link rel="stylesheet" href="assets/css/style.css?v=20260713-2">
+<link rel="stylesheet" href="assets/css/style.css?v=20260717-home2">
 <link rel="icon" type="image/png" href="favicon.png">
 
 <link rel="canonical" href="https://ys-un.github.io/gbf-tools/">
@@ -36,50 +36,54 @@ if(location.pathname.endsWith("/index.html")){
 
   <h2>GBF Tools</h2>
 
-  <a href="./">TOP</a>
+  <a href="./">ダッシュボード</a>
+  <a href="schedule/">スケジュール</a>
   <a href="stone/">天井計算機</a>
+  <a href="event/">イベント戦貨計算機</a>
   <a href="meat/">肉消費計算機</a>
   <a href="speed/">時速換算</a>
   <a href="efficiency/">HELL効率比較</a>
-  <a href="event/">イベント戦貨計算機</a>
+
 
 </div>
 
-<div class="main">
-
-  <div class="card">
-
-    <h1>GBF 便利ツール</h1>
-
-    <div class="tool_list">
-
-      <a class="tool_link" href="stone/">
-        宝晶石 天井計算機
-      </a>
-
-      <a class="tool_link" href="meat/">
-        古戦場 肉消費計算機
-      </a>
-
-      <a class="tool_link" href="speed/">
-        古戦場 時速換算
-      </a>
-
-      <a class="tool_link" href="efficiency/">
-        古戦場 HELL効率比較
-      </a>
-
-      <a class="tool_link" href="event/">
-        イベント戦貨計算機 <span class="tool_badge">NEW</span>
-      </a>
-
+<div class="main home_main">
+  <section class="card home_hero">
+    <div>
+      <p class="home_eyebrow">GBF TOOLS</p>
+      <h1>趣味でやってます。</h1>
+      <p>古戦場やイベント周回に役立つ計算機と、今後の予定をまとめて確認できます。</p>
     </div>
+    <a class="home_schedule_link" href="schedule/">スケジュールを見る →</a>
+  </section>
 
-  </div>
+  <section class="home_schedule_grid" aria-label="今日のグラブル">
+    <article class="card home_schedule_card _current">
+      <div class="home_section_head"><div><span>NOW</span><h2>開催中</h2></div><small id="homeScheduleUpdated"></small></div>
+      <div id="homeCurrentEvent"><p class="home_schedule_empty">読み込み中...</p></div>
+    </article>
+    <article class="card home_schedule_card _next">
+      <div class="home_section_head"><div><span>NEXT</span><h2>次の予定</h2></div></div>
+      <div id="homeNextEvent"><p class="home_schedule_empty">読み込み中...</p></div>
+    </article>
+  </section>
 
+  <section class="card home_tools_card">
+    <div class="home_section_head"><div><span>TOOLS</span><h2>便利ツール</h2></div></div>
+    <div class="home_tool_grid">
+      <a class="home_tool_item _schedule" href="schedule/"><span>📅</span><div><strong>スケジュール</strong><small>開催中・今後の予定を月間表示</small></div></a>
+      <a class="home_tool_item" href="stone/"><span>💎</span><div><strong>天井計算機</strong><small>宝晶石・チケットから天井までを計算</small></div></a>
+      <a class="home_tool_item" href="event/"><span>🎫</span><div><strong>イベント戦貨計算機</strong><small>箱掘りに必要な戦貨・AP・時間を計算</small></div></a>
+      <a class="home_tool_item" href="meat/"><span>🥩</span><div><strong>肉消費計算機</strong><small>古戦場HELL周回に必要な肉を計算</small></div></a>
+      <a class="home_tool_item" href="speed/"><span>⏱</span><div><strong>時速換算</strong><small>経過時間と貢献度から時速を算出</small></div></a>
+      <a class="home_tool_item" href="efficiency/"><span>⚔</span><div><strong>HELL効率比較</strong><small>各難易度の周回効率を比較</small></div></a>
+    </div>
+  </section>
 </div>
+
 
 <script src="assets/js/cmn.js"></script>
+<script src="assets/js/home.js"></script>
 <script type="module" src="assets/js/firebase.js"></script>
 
 <div class="auth_floating is_auth_loading" id="authFloating">
