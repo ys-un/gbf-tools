@@ -138,7 +138,11 @@
       const width=(Math.max(1,end-start+1)/days)*100;
       const active=parse(event.start)<=current && parse(event.end)>=current ? " is_active" : "";
       const title=escapeHtml(event.title);
-      return `<div class="schedule_row${active}"><div class="schedule_row_title"><span class="schedule_category _${event.category}">${categoryLabel[event.category]}</span><strong>${title}</strong></div><div class="schedule_row_track">${Array.from({length:days},()=>'<i></i>').join("")}<div class="schedule_bar _${event.category}" style="left:${left}%;width:${width}%" title="${title}｜${rangeText(event)}"><span>${title}</span></div></div></div>`;
+      const cells=Array.from({length:days},(_,i)=>{
+        const isToday=current.getFullYear()===year&&current.getMonth()+1===month&&current.getDate()===i+1;
+        return `<i${isToday?' class="is_today"':''}></i>`;
+      }).join("");
+      return `<div class="schedule_row${active}"><div class="schedule_row_title"><span class="schedule_category _${event.category}">${categoryLabel[event.category]}</span><strong>${title}</strong></div><div class="schedule_row_track">${cells}<div class="schedule_bar _${event.category}" style="left:${left}%;width:${width}%" title="${title}｜${rangeText(event)}"><span>${title}</span></div></div></div>`;
     }).join("");
 
     const timeline=document.getElementById("scheduleTimeline");
