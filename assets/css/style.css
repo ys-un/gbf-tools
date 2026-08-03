@@ -1818,3 +1818,374 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
   .home_schedule_grid,.home_tool_grid{grid-template-columns:1fr;}
   .home_schedule_link{width:100%;box-sizing:border-box;}
 }
+
+/* =========================
+   ダッシュボード やることリスト
+========================= */
+.home_checklist_card{margin-bottom:20px;}
+.checklist_header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px;}
+.checklist_header span,.checklist_setting_head span{display:block;margin-bottom:3px;color:#64748b;font-size:10px;font-weight:800;letter-spacing:.14em;}
+.checklist_header h2,.checklist_setting_head h3{margin:0;}
+.checklist_text_btn,.checklist_skip_btn{padding:0;border:0;background:none;color:#60a5fa;font-size:12px;font-weight:800;cursor:pointer;}
+.checklist_onboarding{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px;border:1px solid rgba(96,165,250,.2);border-radius:16px;background:linear-gradient(135deg,rgba(37,99,235,.10),rgba(15,23,42,.42));}
+.checklist_onboarding h3{margin:0 0 7px;font-size:18px;}.checklist_onboarding p,.checklist_compact_start p{margin:0;color:#94a3b8;font-size:13px;line-height:1.7;}
+.checklist_onboarding_actions{display:flex;align-items:center;flex-wrap:wrap;justify-content:flex-end;gap:9px;}
+.checklist_primary_btn,.checklist_secondary_btn,.checklist_preset_buttons button{min-height:40px;padding:9px 14px;border-radius:11px;font-size:12px;font-weight:800;cursor:pointer;}
+.checklist_primary_btn{border:1px solid #2563eb;background:#2563eb;color:#fff;}.checklist_primary_btn:hover{background:#1d4ed8;}
+.checklist_secondary_btn,.checklist_preset_buttons button{border:1px solid rgba(148,163,184,.22);background:#111827;color:#cbd5e1;}.checklist_secondary_btn:hover,.checklist_preset_buttons button:hover{border-color:rgba(96,165,250,.45);color:#fff;}
+.checklist_skip_btn{color:#64748b;}.checklist_compact_start{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px;border:1px dashed rgba(148,163,184,.2);border-radius:14px;}
+.checklist_grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;}
+.checklist_group{overflow:hidden;border:1px solid rgba(148,163,184,.14);border-radius:15px;background:rgba(15,23,42,.48);}
+.checklist_group.is_complete{border-color:rgba(34,197,94,.28);}
+.checklist_group_head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:15px 16px;border-bottom:1px solid rgba(148,163,184,.11);}
+.checklist_group_head span{display:block;color:#64748b;font-size:9px;font-weight:800;letter-spacing:.12em;}.checklist_group_head h3{margin:3px 0 0;font-size:16px;}.checklist_group_head>strong{color:#94a3b8;font-size:11px;}.checklist_group.is_complete .checklist_group_head>strong{color:#4ade80;}
+.checklist_items{padding:6px 0;}.checklist_item{display:flex;align-items:center;gap:11px;padding:10px 14px;cursor:pointer;transition:background-color .15s ease;}.checklist_item:hover{background:rgba(30,41,59,.65);}.checklist_item input{position:absolute;opacity:0;pointer-events:none;}
+.checklist_check{display:grid;place-items:center;width:19px;height:19px;flex:none;border:1px solid #475569;border-radius:6px;background:#0f172a;}.checklist_item.is_checked .checklist_check{border-color:#22c55e;background:#16a34a;}.checklist_item.is_checked .checklist_check:after{content:'✓';color:#fff;font-size:12px;font-weight:900;}
+.checklist_item_text{min-width:0;}.checklist_item_text strong{display:block;color:#cbd5e1;font-size:12px;line-height:1.45;}.checklist_item_text small{display:block;margin-top:2px;color:#64748b;font-size:10px;}.checklist_item.is_checked .checklist_item_text strong{color:#64748b;text-decoration:line-through;}
+.checklist_reset_note{margin:13px 0 0;color:#475569;font-size:10px;line-height:1.6;}.checklist_empty{grid-column:1/-1;margin:0;color:#64748b;}
+.checklist_preset_area{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:18px;padding:15px 16px;border:1px solid rgba(96,165,250,.18);border-radius:14px;background:rgba(37,99,235,.07);}.checklist_preset_area h3{margin:0 0 4px;font-size:14px;}.checklist_preset_area p{margin:0;color:#64748b;font-size:11px;}.checklist_preset_buttons{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:7px;}.checklist_preset_buttons button{min-height:34px;padding:7px 10px;}
+.checklist_settings_grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;}.checklist_setting_group{padding:15px;border:1px solid rgba(148,163,184,.14);border-radius:15px;background:rgba(15,23,42,.48);}.checklist_setting_head{margin-bottom:11px;padding-bottom:11px;border-bottom:1px solid rgba(148,163,184,.1);}.checklist_setting_head h3{font-size:16px;}.checklist_setting_subgroup+.checklist_setting_subgroup{margin-top:15px;padding-top:13px;border-top:1px solid rgba(148,163,184,.1);}.checklist_setting_subgroup h4{margin:0 0 7px;color:#94a3b8;font-size:11px;}
+.checklist_setting_item{display:flex;align-items:flex-start;gap:9px;padding:8px 5px;cursor:pointer;}.checklist_setting_item input{width:16px;height:16px;margin-top:1px;accent-color:#2563eb;}.checklist_setting_item span{min-width:0;}.checklist_setting_item strong{display:block;color:#cbd5e1;font-size:11px;line-height:1.4;}.checklist_setting_item small{display:block;margin-top:2px;color:#64748b;font-size:9px;}
+.checklist_setting_footer{display:flex;justify-content:flex-end;gap:9px;margin-top:18px;padding-top:17px;border-top:1px solid rgba(148,163,184,.12);}
+@media(max-width:980px){.checklist_grid,.checklist_settings_grid{grid-template-columns:1fr;}}
+@media(max-width:768px){.checklist_onboarding,.checklist_preset_area,.checklist_compact_start{align-items:flex-start;flex-direction:column;}.checklist_onboarding_actions,.checklist_preset_buttons{justify-content:flex-start;width:100%;}.checklist_onboarding_actions .checklist_primary_btn,.checklist_onboarding_actions .checklist_secondary_btn{flex:1 1 calc(50% - 5px);}.checklist_setting_footer>*{flex:1;}.checklist_header{margin-bottom:14px;}}
+
+.checklist_usage_notes{margin:14px 0 0;padding:11px 13px;border-left:3px solid rgba(96,165,250,.45);border-radius:0 8px 8px 0;background:rgba(30,41,59,.38);}
+.checklist_usage_notes p{margin:0;color:#64748b;font-size:10px;line-height:1.7;}
+.checklist_usage_notes p+p{margin-top:2px;}
+.checklist_usage_notes._onboarding{margin-top:12px;}
+
+/* やることリスト：カテゴリ一括操作・プリセット通知 */
+.checklist_group_actions{display:flex;align-items:flex-end;flex-direction:column;gap:6px;}
+.checklist_group_actions>strong{color:#94a3b8;font-size:11px;}
+.checklist_group.is_complete .checklist_group_actions>strong{color:#4ade80;}
+.checklist_group_toggle{padding:0;border:0;background:none;color:#60a5fa;font-size:10px;font-weight:800;line-height:1.4;cursor:pointer;}
+.checklist_group_toggle:hover{color:#93c5fd;}
+.checklist_preset_buttons button.is_reset{border-color:rgba(248,113,113,.25);color:#fca5a5;}
+.checklist_preset_buttons button.is_reset:hover{border-color:rgba(248,113,113,.5);color:#fecaca;}
+.checklist_preset_notice{min-height:20px;margin:-8px 0 10px;color:#4ade80;font-size:11px;font-weight:700;opacity:0;transform:translateY(-3px);transition:opacity .18s ease,transform .18s ease;}
+.checklist_preset_notice.is_visible{opacity:1;transform:translateY(0);}
+@media(max-width:768px){.checklist_group_actions{align-items:flex-end;}.checklist_preset_notice{margin-top:-6px;}}
+
+/* v2.3 やることリスト設定UI */
+.checklist_settings_header{
+  align-items:center;
+  padding-bottom:14px;
+  border-bottom:1px solid rgba(148,163,184,.12);
+}
+.checklist_settings_title{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.checklist_mode_badge{
+  display:inline-flex;
+  align-items:center;
+  min-height:24px;
+  padding:3px 9px;
+  border:1px solid rgba(96,165,250,.28);
+  border-radius:999px;
+  background:rgba(37,99,235,.10);
+  color:#93c5fd;
+  font-size:10px;
+  font-weight:800;
+  line-height:1;
+}
+.checklist_mode_badge[data-mode="custom"]{
+  border-color:rgba(168,85,247,.30);
+  background:rgba(126,34,206,.10);
+  color:#d8b4fe;
+}
+.checklist_preset_area{
+  align-items:flex-start;
+  padding:18px;
+}
+.checklist_preset_intro{
+  flex:1 1 240px;
+}
+.checklist_preset_kicker{
+  display:block;
+  margin-bottom:4px;
+  color:#60a5fa;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.14em;
+}
+.checklist_preset_buttons{
+  flex:1 1 430px;
+  align-items:center;
+}
+.checklist_preset_buttons button{
+  white-space:nowrap;
+}
+.checklist_setting_group{
+  padding:0;
+  overflow:hidden;
+}
+.checklist_setting_head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin:0;
+  padding:14px 15px;
+  background:rgba(30,41,59,.42);
+}
+.checklist_setting_subgroup{
+  padding:13px 15px 15px;
+}
+.checklist_setting_subgroup+.checklist_setting_subgroup{
+  margin:0;
+  padding-top:13px;
+}
+.checklist_setting_group>.checklist_setting_item{
+  margin:0 10px;
+}
+.checklist_setting_group>.checklist_setting_item:last-child{
+  margin-bottom:10px;
+}
+.checklist_setting_toggle{
+  flex:none;
+  padding:5px 9px;
+  border:1px solid rgba(96,165,250,.25);
+  border-radius:8px;
+  background:rgba(37,99,235,.08);
+  color:#93c5fd;
+  font-size:10px;
+  font-weight:800;
+  cursor:pointer;
+}
+.checklist_setting_toggle:hover{
+  border-color:rgba(96,165,250,.50);
+  background:rgba(37,99,235,.16);
+  color:#fff;
+}
+.checklist_setting_footer{
+  position:sticky;
+  bottom:0;
+  z-index:5;
+  margin-top:20px;
+  padding:14px 0 0;
+  background:linear-gradient(180deg,rgba(15,23,42,0),#0f172a 24%);
+}
+@media(max-width:768px){
+  .checklist_settings_header{align-items:flex-start;}
+  .checklist_settings_title{align-items:flex-start;flex-direction:column;gap:7px;}
+  .checklist_preset_area{padding:15px;}
+  .checklist_preset_buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));}
+  .checklist_preset_buttons button{width:100%;white-space:normal;}
+  .checklist_preset_buttons button.is_reset{grid-column:1/-1;}
+  .checklist_setting_footer{padding-bottom:4px;}
+}
+
+/* v2.4 やることリスト UIブラッシュアップ */
+.checklist_settings_header{
+  align-items:flex-start;
+  gap:20px;
+}
+.checklist_settings_title{
+  display:block;
+  min-width:0;
+}
+.checklist_settings_title>span{
+  margin-bottom:4px;
+}
+.checklist_settings_title_row{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.checklist_settings_actions{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  gap:9px;
+  margin-left:auto;
+}
+.checklist_settings_actions .checklist_primary_btn,
+.checklist_settings_actions .checklist_secondary_btn{
+  min-height:40px;
+  white-space:nowrap;
+}
+.checklist_setting_footer{display:none!important;}
+
+.checklist_group_head{
+  align-items:center;
+  min-height:68px;
+}
+.checklist_group_summary{
+  display:flex;
+  align-items:center;
+  min-width:0;
+  flex:1;
+  gap:10px;
+  padding:0;
+  border:0;
+  background:none;
+  color:inherit;
+  text-align:left;
+}
+.checklist_group_title{display:block;min-width:0;}
+.checklist_group_title small{
+  display:block;
+  margin:0 0 3px;
+  color:#64748b;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.12em;
+}
+.checklist_group_title strong{
+  display:block;
+  color:#f8fafc;
+  font-size:16px;
+  line-height:1.25;
+}
+.checklist_group_arrow{display:none;}
+.checklist_group_actions{
+  display:grid;
+  grid-template-columns:34px 100px;
+  align-items:center;
+  gap:8px;
+  flex:none;
+}
+.checklist_group_actions>strong{
+  display:block;
+  width:34px;
+  color:#94a3b8;
+  font-size:11px;
+  line-height:1;
+  text-align:center;
+}
+.checklist_group.is_complete .checklist_group_actions>strong{color:#4ade80;}
+.checklist_group_toggle{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:100px;
+  min-height:32px;
+  padding:6px 9px;
+  border:1px solid rgba(96,165,250,.28);
+  border-radius:8px;
+  background:rgba(37,99,235,.10);
+  color:#93c5fd;
+  font-size:10px;
+  font-weight:800;
+  line-height:1.2;
+  white-space:nowrap;
+}
+.checklist_group_toggle:hover{
+  border-color:rgba(96,165,250,.52);
+  background:rgba(37,99,235,.18);
+  color:#fff;
+}
+.checklist_group.is_complete .checklist_group_toggle{
+  border-color:rgba(148,163,184,.24);
+  background:rgba(15,23,42,.45);
+  color:#cbd5e1;
+}
+
+@media(max-width:768px){
+  .checklist_settings_header{
+    align-items:stretch;
+    flex-direction:column;
+    gap:14px;
+  }
+  .checklist_settings_title_row{gap:8px;}
+  .checklist_settings_actions{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    width:100%;
+    margin:0;
+  }
+  .checklist_settings_actions .checklist_primary_btn{
+    grid-column:1/-1;
+  }
+  .checklist_settings_actions .checklist_primary_btn,
+  .checklist_settings_actions .checklist_secondary_btn{
+    width:100%;
+  }
+
+  .checklist_grid{gap:10px;}
+  .checklist_group_head{
+    min-height:0;
+    padding:13px 14px;
+  }
+  .checklist_group_summary{cursor:pointer;}
+  .checklist_group_arrow{
+    display:block;
+    width:9px;
+    height:9px;
+    margin-left:auto;
+    border-right:2px solid #64748b;
+    border-bottom:2px solid #64748b;
+    transform:rotate(45deg) translateY(-2px);
+    transition:transform .18s ease,border-color .18s ease;
+  }
+  .checklist_group.is_open .checklist_group_arrow{
+    border-color:#93c5fd;
+    transform:rotate(225deg) translate(-2px,-1px);
+  }
+  .checklist_group:not(.is_open) .checklist_items{display:none;}
+  .checklist_group_actions{
+    grid-template-columns:32px 98px;
+    gap:6px;
+  }
+  .checklist_group_actions>strong{width:32px;}
+  .checklist_group_toggle{width:98px;min-height:34px;}
+}
+
+
+/* v2.4.1 設定画面：自動保存・プリセット高さ調整 */
+.checklist_autosave_note{
+  margin:8px 0 0;
+  color:#64748b;
+  font-size:11px;
+  line-height:1.6;
+}
+.checklist_preset_area{
+  align-items:flex-start;
+  height:auto;
+  min-height:0;
+}
+.checklist_preset_intro{flex:0 1 280px;}
+.checklist_preset_buttons{
+  flex:1 1 430px;
+  align-content:flex-start;
+  height:auto;
+  min-height:0;
+}
+@media(max-width:768px){
+  .checklist_settings_header{
+    flex-direction:row;
+    align-items:flex-start;
+  }
+  .checklist_settings_actions{
+    display:flex;
+    width:auto;
+    margin-left:auto;
+  }
+  .checklist_settings_actions .checklist_secondary_btn{
+    width:auto;
+    min-width:76px;
+  }
+  .checklist_preset_area{
+    display:block;
+    height:auto;
+    min-height:0;
+  }
+  .checklist_preset_intro{width:100%;}
+  .checklist_preset_buttons{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    width:100%;
+    height:auto;
+    min-height:0;
+    margin-top:14px;
+    flex:none;
+    align-content:start;
+  }
+  .checklist_preset_buttons button.is_reset{margin-top:4px;}
+}
