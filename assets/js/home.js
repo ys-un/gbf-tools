@@ -16,11 +16,57 @@
 
   function remainingInfo(target, prefix){
     const diff = Math.max(0, parse(target) - new Date());
+    const urgent = diff > 0 && diff < 86400000;
+
+    if(urgent){
+      const totalMinutes = Math.ceil(diff / 60000);
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
+      const text = hours > 0
+        ? `${prefix}${hours}時間${minutes}分`
+        : `${prefix}${minutes}分`;
+      return {text, urgent};
+    }
+
     const hours = Math.ceil(diff / 3600000);
     return {
-      text: diff < 86400000 ? `${prefix}約${hours}時間` : `${prefix}約${Math.ceil(hours / 24)}日`,
-      urgent: diff > 0 && diff < 86400000
+      text: `${prefix}約${Math.ceil(hours / 24)}日`,
+      urgent: false
     };
+  }
+
+  let scheduleData = null;
+
+  function render(){
+    if(!scheduleData) return;
+
+    const currentBox = document.getElementById("homeCurrentEvent");
+    const nextBox = document.getElementById("homeNextEvent");
+    const events = (scheduleData.events || []).slice().sort((a,b) => parse(a.start) - parse(b.start));
+    const now = new Date();
+    const active = events.filter(event => parse(event.start) <= now && parse(event.end) >= now).sort((a,b) => parse(a.end) - parse(b.end));
+    const next = events.find(event => parse(event.start) > now);
+
+    currentBox.innerHTML = active.length ? active.slice(0,2).map(event => {
+      const remaining = remainingInfo(event.end, "残り");
+      return `
+      <a href="schedule/" class="home_schedule_item${remaining.urgent ? ' is_ending_soon' : ''}">
+        <span class="schedule_category _${event.category}">${categoryLabel[event.category]}</span>
+        <strong>${escapeHtml(event.title)}</strong>
+        <small>${rangeText(event)}</small>
+        <em class="${remaining.urgent ? 'is_urgent' : ''}">${remaining.text}</em>
+      </a>
+    `;
+    }).join("") : '<p class="home_schedule_empty">現在開催中の予定はありません。</p>';
+
+    nextBox.innerHTML = next ? `
+      <a href="schedule/" class="home_schedule_item">
+        <span class="schedule_category _${next.category}">${categoryLabel[next.category]}</span>
+        <strong>${escapeHtml(next.title)}</strong>
+        <small>${rangeText(next)}</small>
+        <em>${remainingInfo(next.start, "開始まで").text}</em>
+      </a>
+    ` : '<p class="home_schedule_empty">次の予定は未登録です。</p>';
   }
 
   async function init(){
@@ -31,34 +77,10 @@
     try{
       const response = await fetch(DATA_URL, {cache:"no-store"});
       if(!response.ok) throw new Error(`HTTP ${response.status}`);
-      const data = await response.json();
-      const events = (data.events || []).slice().sort((a,b) => parse(a.start) - parse(b.start));
-      const now = new Date();
-      const active = events.filter(event => parse(event.start) <= now && parse(event.end) >= now).sort((a,b) => parse(a.end) - parse(b.end));
-      const next = events.find(event => parse(event.start) > now);
-
-      currentBox.innerHTML = active.length ? active.slice(0,2).map(event => {
-        const remaining = remainingInfo(event.end, "残り");
-        return `
-        <a href="schedule/" class="home_schedule_item${remaining.urgent ? ' is_ending_soon' : ''}">
-          <span class="schedule_category _${event.category}">${categoryLabel[event.category]}</span>
-          <strong>${escapeHtml(event.title)}</strong>
-          <small>${rangeText(event)}</small>
-          <em class="${remaining.urgent ? 'is_urgent' : ''}">${remaining.text}</em>
-        </a>
-      `;
-      }).join("") : '<p class="home_schedule_empty">現在開催中の予定はありません。</p>';
-
-      nextBox.innerHTML = next ? `
-        <a href="schedule/" class="home_schedule_item">
-          <span class="schedule_category _${next.category}">${categoryLabel[next.category]}</span>
-          <strong>${escapeHtml(next.title)}</strong>
-          <small>${rangeText(next)}</small>
-          <em>${remainingInfo(next.start, "開始まで").text}</em>
-        </a>
-      ` : '<p class="home_schedule_empty">次の予定は未登録です。</p>';
-
-      updated.textContent = `更新：${fmtDate(data.updatedAt)}`;
+      scheduleData = await response.json();
+      render();
+      updated.textContent = `更新：${fmtDate(scheduleData.updatedAt)}`;
+      setInterval(render, 60000);
     }catch(error){
       console.error(error);
       currentBox.innerHTML = '<p class="home_schedule_empty">スケジュールを読み込めませんでした。</p>';

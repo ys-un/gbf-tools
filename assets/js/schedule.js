@@ -77,9 +77,17 @@
 
     currentBox.innerHTML=active.length ? active.map(event=>{
       const diff=Math.max(0,parse(event.end)-current);
-      const hours=Math.ceil(diff/3600000);
       const urgent=diff>0 && diff<86400000;
-      const remain=diff<86400000 ? `残り約${hours}時間` : `残り約${Math.ceil(hours/24)}日`;
+      let remain;
+      if(urgent){
+        const totalMinutes=Math.ceil(diff/60000);
+        const hours=Math.floor(totalMinutes/60);
+        const minutes=totalMinutes%60;
+        remain=hours>0 ? `残り${hours}時間${minutes}分` : `残り${minutes}分`;
+      }else{
+        const hours=Math.ceil(diff/3600000);
+        remain=`残り約${Math.ceil(hours/24)}日`;
+      }
       return `<div class="schedule_status_item${urgent ? ' is_ending_soon' : ''}"><span class="schedule_category _${event.category}">${categoryLabel[event.category]}</span><h3>${escapeHtml(event.title)}</h3><p>${rangeText(event)}</p><strong class="${urgent ? 'is_urgent' : ''}">${remain}</strong></div>`;
     }).join("") : '<p class="schedule_empty">表示対象の開催中予定はありません。</p>';
 
@@ -175,6 +183,7 @@
       state.currentDate=new Date(now().getFullYear(), now().getMonth(), 1);
       document.getElementById("scheduleUpdated").textContent=`データ更新：${fmtDate(state.data.updatedAt,true)}`;
       renderMonth();
+      setInterval(()=>renderStatus(state.data.events || []),60000);
     }catch(error){
       console.error(error);
       document.getElementById("scheduleUpdated").textContent="データを読み込めませんでした";
