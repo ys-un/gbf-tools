@@ -1742,6 +1742,11 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
 .schedule_status_label{display:inline-block;margin-bottom:14px;color:#94a3b8;font-size:12px;font-weight:800;letter-spacing:.08em;}
 .schedule_status_item h3{margin:8px 0 6px;font-size:20px;}.schedule_status_item p{margin:0;color:#94a3b8;font-size:13px;line-height:1.7;}.schedule_status_item strong{display:inline-block;margin-top:10px;color:#e2e8f0;font-size:13px;}
 .schedule_status_item+.schedule_status_item{margin-top:18px;padding-top:18px;border-top:1px solid rgba(148,163,184,.16);}
+.schedule_status_item strong.is_urgent,.home_schedule_item em.is_urgent{padding:6px 10px;border:1px solid rgba(248,113,113,.42);border-radius:999px;background:rgba(239,68,68,.16);color:#fecaca;box-shadow:0 0 0 3px rgba(239,68,68,.06);font-size:12px;}
+.schedule_status_item.is_ending_soon h3,.home_schedule_item.is_ending_soon>strong{color:#fff1f2;}
+.schedule_status_item.is_ending_soon,.home_schedule_item.is_ending_soon{position:relative;}
+.schedule_status_item.is_ending_soon:after,.home_schedule_item.is_ending_soon:after{content:"終了間近";display:inline-block;margin-left:8px;padding:3px 7px;border-radius:999px;background:#dc2626;color:#fff;font-size:9px;font-weight:900;letter-spacing:.04em;vertical-align:middle;}
+
 .schedule_empty{margin:0;color:#64748b;}
 .schedule_calendar_card{padding:0;overflow:hidden;}
 .schedule_month_head{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;padding:22px 24px;border-bottom:1px solid rgba(148,163,184,.14);text-align:center;}

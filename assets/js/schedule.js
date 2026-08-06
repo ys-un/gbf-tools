@@ -76,9 +76,11 @@
     const nextBox=document.getElementById("nextEvent");
 
     currentBox.innerHTML=active.length ? active.map(event=>{
-      const hours=Math.max(0,Math.ceil((parse(event.end)-current)/3600000));
-      const remain=hours<24 ? `残り約${hours}時間` : `残り約${Math.ceil(hours/24)}日`;
-      return `<div class="schedule_status_item"><span class="schedule_category _${event.category}">${categoryLabel[event.category]}</span><h3>${escapeHtml(event.title)}</h3><p>${rangeText(event)}</p><strong>${remain}</strong></div>`;
+      const diff=Math.max(0,parse(event.end)-current);
+      const hours=Math.ceil(diff/3600000);
+      const urgent=diff>0 && diff<86400000;
+      const remain=diff<86400000 ? `残り約${hours}時間` : `残り約${Math.ceil(hours/24)}日`;
+      return `<div class="schedule_status_item${urgent ? ' is_ending_soon' : ''}"><span class="schedule_category _${event.category}">${categoryLabel[event.category]}</span><h3>${escapeHtml(event.title)}</h3><p>${rangeText(event)}</p><strong class="${urgent ? 'is_urgent' : ''}">${remain}</strong></div>`;
     }).join("") : '<p class="schedule_empty">表示対象の開催中予定はありません。</p>';
 
     if(upcoming.length){

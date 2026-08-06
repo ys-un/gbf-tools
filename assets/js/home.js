@@ -14,9 +14,13 @@
     return `${fmtDate(event.start)} ～ ${fmtDate(event.end)}`;
   }
 
-  function remainingText(target, prefix){
-    const hours = Math.max(0, Math.ceil((parse(target) - new Date()) / 3600000));
-    return hours < 24 ? `${prefix}約${hours}時間` : `${prefix}約${Math.ceil(hours / 24)}日`;
+  function remainingInfo(target, prefix){
+    const diff = Math.max(0, parse(target) - new Date());
+    const hours = Math.ceil(diff / 3600000);
+    return {
+      text: diff < 86400000 ? `${prefix}約${hours}時間` : `${prefix}約${Math.ceil(hours / 24)}日`,
+      urgent: diff > 0 && diff < 86400000
+    };
   }
 
   async function init(){
@@ -33,21 +37,24 @@
       const active = events.filter(event => parse(event.start) <= now && parse(event.end) >= now).sort((a,b) => parse(a.end) - parse(b.end));
       const next = events.find(event => parse(event.start) > now);
 
-      currentBox.innerHTML = active.length ? active.slice(0,2).map(event => `
-        <a href="schedule/" class="home_schedule_item">
+      currentBox.innerHTML = active.length ? active.slice(0,2).map(event => {
+        const remaining = remainingInfo(event.end, "残り");
+        return `
+        <a href="schedule/" class="home_schedule_item${remaining.urgent ? ' is_ending_soon' : ''}">
           <span class="schedule_category _${event.category}">${categoryLabel[event.category]}</span>
           <strong>${escapeHtml(event.title)}</strong>
           <small>${rangeText(event)}</small>
-          <em>${remainingText(event.end, "残り")}</em>
+          <em class="${remaining.urgent ? 'is_urgent' : ''}">${remaining.text}</em>
         </a>
-      `).join("") : '<p class="home_schedule_empty">現在開催中の予定はありません。</p>';
+      `;
+      }).join("") : '<p class="home_schedule_empty">現在開催中の予定はありません。</p>';
 
       nextBox.innerHTML = next ? `
         <a href="schedule/" class="home_schedule_item">
           <span class="schedule_category _${next.category}">${categoryLabel[next.category]}</span>
           <strong>${escapeHtml(next.title)}</strong>
           <small>${rangeText(next)}</small>
-          <em>${remainingText(next.start, "開始まで")}</em>
+          <em>${remainingInfo(next.start, "開始まで").text}</em>
         </a>
       ` : '<p class="home_schedule_empty">次の予定は未登録です。</p>';
 
