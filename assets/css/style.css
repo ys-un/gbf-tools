@@ -16,7 +16,6 @@ body{
     BlinkMacSystemFont,
     "Helvetica Neue",
     sans-serif;
-  display:flex;
 }
 
 
@@ -76,6 +75,12 @@ body{
   transform:none;
 }
 
+
+
+/* スマホメニュー背景 */
+.menu_overlay{
+  display:none;
+}
 
 /* =========================
    メイン
@@ -733,6 +738,30 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
 
   .sidebar.active{
     transform:translateY(0);
+  }
+
+  .menu_overlay{
+    display:block;
+    position:fixed;
+    inset:60px 0 0;
+    z-index:998;
+    border:0;
+    padding:0;
+    background:rgba(2,6,23,.68);
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .25s,visibility .25s;
+  }
+
+  .menu_overlay.active{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+  }
+
+  body.menu_open{
+    overflow:hidden;
   }
 
   .grid{
@@ -2196,3 +2225,24 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
   }
   .checklist_preset_buttons button.is_reset{margin-top:4px;}
 }
+
+
+/* =========================
+   共通フッター
+   サイドバー・メイン領域の外側に置き、サイト全幅で表示
+========================= */
+.footer_common{
+  width:100%;
+  margin-top:48px;
+  padding:24px 16px;
+  position:relative;
+  z-index:950;
+  background:#020617;
+  border-top:1px solid rgba(255,255,255,.08);
+  text-align:center;
+  color:#94a3b8;
+  font-size:12px;
+  line-height:1.7;
+}
+.footer_copy{margin:0 0 8px;color:#cbd5e1;font-weight:600}
+.footer_note{margin:0}
