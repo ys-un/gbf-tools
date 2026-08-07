@@ -689,7 +689,7 @@ input:not([type="checkbox"]):not([type="radio"]):focus{
   }
 
   h1{
-    font-size:21px;
+    font-size:20px;
     line-height:1.4;
   }
 
