@@ -37,7 +37,7 @@ function injectCommonNavigation(){
     </div>
     <button type="button" class="menu_overlay" aria-label="メニューを閉じる" tabindex="-1"></button>
     <nav class="sidebar" id="sidebar" aria-label="メインメニュー">
-      <h2>GBF Tools</h2>
+      <h2>ぐらツール</h2>
       ${navigationLinks}
     </nav>
   `);
@@ -132,8 +132,8 @@ function injectFooter(){
   const footer=document.createElement("footer");
   footer.className="footer_common";
   footer.innerHTML=`<div class="footer_inner">
-    <p class="footer_copy">© ${new Date().getFullYear()} GBF Tools</p>
-    <p class="footer_note">本サイト「GBF Tools」は『グランブルーファンタジー』の非公式ファンツールです。<br>Cygames, Inc. とは一切関係ありません。</p>
+    <p class="footer_copy">© ${new Date().getFullYear()} ぐらツール</p>
+    <p class="footer_note">本サイト「ぐらツール」は『グランブルーファンタジー』の非公式ファンツールです。<br>Cygames, Inc. とは一切関係ありません。</p>
   </div>`;
   document.body.appendChild(footer);
 }
