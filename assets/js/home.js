@@ -11,6 +11,7 @@
   }
 
   function rangeText(event){
+    if(event.milestone) return `${event.dateLabel || fmtDate(event.start)}${event.approximate ? ' 予定' : ' 開始予定'}`;
     return `${fmtDate(event.start)} ～ ${fmtDate(event.end)}`;
   }
 
@@ -44,7 +45,7 @@
     const nextBox = document.getElementById("homeNextEvent");
     const events = (scheduleData.events || []).slice().sort((a,b) => parse(a.start) - parse(b.start));
     const now = new Date();
-    const active = events.filter(event => parse(event.start) <= now && parse(event.end) >= now).sort((a,b) => parse(a.end) - parse(b.end));
+    const active = events.filter(event => !event.milestone && parse(event.start) <= now && parse(event.end) >= now).sort((a,b) => parse(a.end) - parse(b.end));
     const next = events.find(event => parse(event.start) > now);
 
     currentBox.innerHTML = active.length ? active.slice(0,2).map(event => {

@@ -6,6 +6,7 @@
     // daily
     { id:'daily_magna_pro', type:'daily', title:'マグナPro', group:'スキップ系', recommended:true },
     { id:'daily_angel_halo_pro', type:'daily', title:'エンジェル・ヘイローPro', group:'スキップ系', recommended:true },
+    { id:'daily_matome_pro', type:'daily', title:'まとめてPro', group:'スキップ系', recommended:false, recommendedFrom:'2026-09-30T00:00:00+09:00', note:'解放済みProを一括消化（9月末頃実装予定）' },
     { id:'daily_event_mission', type:'daily', title:'イベントミッション消化', group:'イベント', recommended:true, eventWhen:{ categories:['event','collab','battle'] } },
     { id:'daily_casino_pickup', type:'daily', title:'カジノメダル拾い', group:'その他', recommended:true },
     { id:'daily_skyleap_login', type:'daily', title:'SkyLeapログイン', group:'その他', recommended:false },
@@ -113,6 +114,7 @@
 
   function activeEvents(now = new Date()){
     return scheduleEvents.filter(event => {
+      if(event.milestone) return false;
       const start = new Date(event.start);
       const end = new Date(event.end);
       return !Number.isNaN(start.getTime()) && !Number.isNaN(end.getTime()) && start <= now && now <= end;
@@ -226,6 +228,7 @@
       <div class="checklist_usage_notes">
         <p>※日課・週課・月課の確認用リストです。（チェックは任意）</p>
         <p>※チェック状態はゲーム内のリセットタイミングに合わせて自動的に解除されます。</p>
+        <p>※「まとめてPro」は9月末頃の実装予定に合わせ、実装時期以降はおすすめ項目にも追加されます。</p>
       </div>
       <p class="checklist_reset_note">日課は毎日5:00、週課は月曜5:00、月課は毎月1日5:00を基準にリセットします。</p>
     `;
@@ -251,6 +254,7 @@
           <div class="checklist_usage_notes _onboarding">
             <p>※日課・週課・月課の確認用リストです。（チェックは任意）</p>
             <p>※チェック状態はゲーム内のリセットタイミングに合わせて自動的に解除されます。</p>
+        <p>※「まとめてPro」は9月末頃の実装予定に合わせ、実装時期以降はおすすめ項目にも追加されます。</p>
           </div>
         </div>
         <div class="checklist_onboarding_actions">
@@ -341,11 +345,18 @@
       </div>`;
   }
 
+  function isRecommended(item){
+    if(item.recommended) return true;
+    if(!item.recommendedFrom) return false;
+    const from = new Date(item.recommendedFrom);
+    return !Number.isNaN(from.getTime()) && new Date() >= from;
+  }
+
   function presetIds(name){
-    if(name === 'recommended') return ITEMS.filter(item => item.recommended).map(item => item.id);
+    if(name === 'recommended') return ITEMS.filter(isRecommended).map(item => item.id);
     if(name === 'hihi-basic') return ['daily_tsuyobaha','daily_ubaha'];
     if(name === 'hihi-full') return ['daily_tsuyobaha','daily_ubaha','daily_akasha','daily_grande','daily_huanglong','daily_qilin'];
-    if(name === 'skip') return ['daily_magna_pro','daily_angel_halo_pro'];
+    if(name === 'skip') return ['daily_magna_pro','daily_angel_halo_pro','daily_matome_pro'];
     return [];
   }
 
@@ -407,7 +418,7 @@
   }
 
   function recommendedStart(){
-    state.selected = ITEMS.filter(item => item.recommended).map(item => item.id);
+    state.selected = ITEMS.filter(isRecommended).map(item => item.id);
     state.initialized = true;
     state.dismissed = false;
     state.checked = {};

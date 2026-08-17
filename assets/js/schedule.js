@@ -45,8 +45,14 @@
     return start.getFullYear()===end.getFullYear() && start.getMonth()===end.getMonth() && start.getDate()===end.getDate();
   }
 
+  function eventDateText(event, includeTime=true){
+    if(event.dateLabel) return event.dateLabel;
+    return fmtDate(event.start, includeTime);
+  }
+
   function rangeText(event){
-    if(isSingleDay(event)) return fmtDate(event.start, true);
+    if(event.milestone) return `${eventDateText(event, true)}${event.approximate ? ' 予定' : ' 開始予定'}`;
+    if(isSingleDay(event)) return eventDateText(event, true);
     return `${fmtDate(event.start, true)} ～ ${fmtDate(event.end, true)}`;
   }
 
@@ -70,7 +76,7 @@
   function renderStatus(events){
     const visibleEvents = filteredEvents(events);
     const current=now();
-    const active=visibleEvents.filter(event=>parse(event.start)<=current && parse(event.end)>=current).sort((a,b)=>parse(a.end)-parse(b.end));
+    const active=visibleEvents.filter(event=>!event.milestone && parse(event.start)<=current && parse(event.end)>=current).sort((a,b)=>parse(a.end)-parse(b.end));
     const upcoming=visibleEvents.filter(event=>parse(event.start)>current).sort((a,b)=>parse(a.start)-parse(b.start));
     const currentBox=document.getElementById("currentEvents");
     const nextBox=document.getElementById("nextEvent");
@@ -146,7 +152,7 @@
       const end=clampDay(event.end,year,month,days);
       const left=((start-1)/days)*100;
       const width=(Math.max(1,end-start+1)/days)*100;
-      const active=parse(event.start)<=current && parse(event.end)>=current ? " is_active" : "";
+      const active=!event.milestone && parse(event.start)<=current && parse(event.end)>=current ? " is_active" : "";
       const title=escapeHtml(event.title);
       const cells=Array.from({length:days},(_,i)=>{
         const isToday=current.getFullYear()===year&&current.getMonth()+1===month&&current.getDate()===i+1;
@@ -159,7 +165,7 @@
     timeline.style.setProperty("--schedule-days",days);
     timeline.innerHTML=`<div class="schedule_days"><div class="schedule_days_blank">イベント</div><div class="schedule_days_grid">${header}</div></div>${rows || '<div class="schedule_no_results">この月には、選択中のカテゴリーの予定はありません。</div>'}`;
 
-    document.getElementById("scheduleList").innerHTML=events.length ? events.map(event=>`<article class="schedule_list_item"><div class="schedule_list_date"><strong>${fmtDate(event.start,false)}</strong><span>${isSingleDay(event)?pad(parse(event.start).getHours())+":"+pad(parse(event.start).getMinutes()):"期間"}</span></div><div><span class="schedule_category _${event.category}">${categoryLabel[event.category]}</span><h3>${escapeHtml(event.title)}</h3><p>${rangeText(event)}${event.note?`<br>${escapeHtml(event.note)}`:""}</p></div></article>`).join("") : '<p class="schedule_empty">この月には、選択中のカテゴリーの予定はありません。</p>';
+    document.getElementById("scheduleList").innerHTML=events.length ? events.map(event=>`<article class="schedule_list_item"><div class="schedule_list_date"><strong>${event.dateLabel ? escapeHtml(event.dateLabel) : fmtDate(event.start,false)}</strong><span>${event.milestone ? (event.approximate ? '予定' : '開始') : isSingleDay(event)?pad(parse(event.start).getHours())+":"+pad(parse(event.start).getMinutes()):"期間"}</span></div><div><span class="schedule_category _${event.category}">${categoryLabel[event.category]}</span><h3>${escapeHtml(event.title)}</h3><p>${rangeText(event)}${event.note?`<br>${escapeHtml(event.note)}`:""}</p></div></article>`).join("") : '<p class="schedule_empty">この月には、選択中のカテゴリーの予定はありません。</p>';
 
     renderStatus(state.data.events || []);
     renderFilters();
