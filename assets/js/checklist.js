@@ -58,7 +58,8 @@
       dismissed:false,
       selected:[],
       checked:{},
-      periodKeys:currentPeriodKeys()
+      periodKeys:currentPeriodKeys(),
+      sandboxMonthlyDefaultApplied:true
     };
   }
 
@@ -74,12 +75,24 @@
   function normalizeState(data){
     const base = emptyState();
     if(!data || typeof data !== 'object') return base;
+
+    const selected = Array.isArray(data.selected)
+      ? data.selected.filter(id => ITEMS.some(item => item.id === id))
+      : [];
+
+    // v3.4: 砂箱マンスリーミッションはデフォルトで表示対象にする。
+    // 既存ユーザーにも一度だけ追加し、その後はユーザー設定を尊重する。
+    if(data.initialized && !data.sandboxMonthlyDefaultApplied){
+      selected.push('monthly_sandbox_campaign');
+    }
+
     return {
       initialized:Boolean(data.initialized),
       dismissed:Boolean(data.dismissed),
-      selected:Array.isArray(data.selected) ? data.selected.filter(id => ITEMS.some(item => item.id === id)) : [],
+      selected:[...new Set(selected)],
       checked:data.checked && typeof data.checked === 'object' ? data.checked : {},
-      periodKeys:data.periodKeys && typeof data.periodKeys === 'object' ? data.periodKeys : currentPeriodKeys()
+      periodKeys:data.periodKeys && typeof data.periodKeys === 'object' ? data.periodKeys : currentPeriodKeys(),
+      sandboxMonthlyDefaultApplied:true
     };
   }
 
