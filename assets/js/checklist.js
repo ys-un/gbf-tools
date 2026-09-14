@@ -28,6 +28,7 @@
     { id:'monthly_gold_fragment', type:'monthly', title:'金剛晶の欠片交換', note:'隔月', months:[2,4,6,8,10,12], recommended:true },
     { id:'monthly_login_point', type:'monthly', title:'ログインポイント交換', recommended:true },
     { id:'monthly_arcarum_point', type:'monthly', title:'アーカルムポイント交換', recommended:true },
+    { id:'monthly_sandbox_campaign', type:'monthly', title:'砂箱マンスリーミッション', note:'ミッション消化・トレジャー交換（9月：ニーア／エスタリオラ）', recommended:true },
     { id:'monthly_fp', type:'monthly', title:'FP（フォローポイント）交換', recommended:false },
     { id:'monthly_extermination', type:'monthly', title:'撃滅戦トレジャー交換', recommended:false, eventWhen:{ titles:['撃滅戦'] } },
     { id:'monthly_casino', type:'monthly', title:'カジノメダル交換', recommended:false },
