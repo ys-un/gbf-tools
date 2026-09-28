@@ -4,9 +4,9 @@
 
   const ITEMS = [
     // daily
-    { id:'daily_magna_pro', type:'daily', title:'マグナPro', group:'スキップ系', recommended:true },
-    { id:'daily_angel_halo_pro', type:'daily', title:'エンジェル・ヘイローPro', group:'スキップ系', recommended:true },
-    { id:'daily_matome_pro', type:'daily', title:'まとめてPro', group:'スキップ系', recommended:false, recommendedFrom:'2026-09-30T00:00:00+09:00', note:'解放済みProを一括消化（9月末頃実装予定）' },
+    { id:'daily_magna_pro', type:'daily', title:'マグナPro', group:'スキップ系', recommended:false },
+    { id:'daily_angel_halo_pro', type:'daily', title:'エンジェル・ヘイローPro', group:'スキップ系', recommended:false },
+    { id:'daily_matome_pro', type:'daily', title:'まとめてPro', group:'スキップ系', recommended:true, note:'解放済みProを選択して一括消化' },
     { id:'daily_event_mission', type:'daily', title:'イベントミッション消化', group:'イベント', recommended:true, eventWhen:{ categories:['event','collab','battle'] } },
     { id:'daily_casino_pickup', type:'daily', title:'カジノメダル拾い', group:'その他', recommended:true },
     { id:'daily_skyleap_login', type:'daily', title:'SkyLeapログイン', group:'その他', recommended:false },
@@ -59,7 +59,8 @@
       selected:[],
       checked:{},
       periodKeys:currentPeriodKeys(),
-      sandboxMonthlyDefaultApplied:true
+      sandboxMonthlyDefaultApplied:true,
+      matomeProDefaultApplied:true
     };
   }
 
@@ -86,13 +87,25 @@
       selected.push('monthly_sandbox_campaign');
     }
 
+    // v3.5: まとめてPro実装に合わせて、おすすめの日課を一本化。
+    // 旧おすすめ（マグナPro＋ヘイローPro）を使っていた場合のみ自動移行する。
+    if(data.initialized && !data.matomeProDefaultApplied){
+      const hadOldProDefaults = selected.includes('daily_magna_pro') && selected.includes('daily_angel_halo_pro');
+      if(hadOldProDefaults){
+        const nextSelected = selected.filter(id => !['daily_magna_pro','daily_angel_halo_pro'].includes(id));
+        selected.length = 0;
+        selected.push(...nextSelected, 'daily_matome_pro');
+      }
+    }
+
     return {
       initialized:Boolean(data.initialized),
       dismissed:Boolean(data.dismissed),
       selected:[...new Set(selected)],
       checked:data.checked && typeof data.checked === 'object' ? data.checked : {},
       periodKeys:data.periodKeys && typeof data.periodKeys === 'object' ? data.periodKeys : currentPeriodKeys(),
-      sandboxMonthlyDefaultApplied:true
+      sandboxMonthlyDefaultApplied:true,
+      matomeProDefaultApplied:true
     };
   }
 
@@ -242,7 +255,7 @@
       <div class="checklist_usage_notes">
         <p>※日課・週課・月課の確認用リストです。（チェックは任意）</p>
         <p>※チェック状態はゲーム内のリセットタイミングに合わせて自動的に解除されます。</p>
-        <p>※「まとめてPro」は9月末頃の実装予定に合わせ、実装時期以降はおすすめ項目にも追加されます。</p>
+        <p>※「まとめてPro」実装に合わせ、スキップ系の日課は「まとめてPro」をおすすめ項目にしています。</p>
       </div>
       <p class="checklist_reset_note">日課は毎日5:00、週課は月曜5:00、月課は毎月1日5:00を基準にリセットします。</p>
     `;
@@ -268,7 +281,7 @@
           <div class="checklist_usage_notes _onboarding">
             <p>※日課・週課・月課の確認用リストです。（チェックは任意）</p>
             <p>※チェック状態はゲーム内のリセットタイミングに合わせて自動的に解除されます。</p>
-        <p>※「まとめてPro」は9月末頃の実装予定に合わせ、実装時期以降はおすすめ項目にも追加されます。</p>
+        <p>※「まとめてPro」実装に合わせ、スキップ系の日課は「まとめてPro」をおすすめ項目にしています。</p>
           </div>
         </div>
         <div class="checklist_onboarding_actions">
