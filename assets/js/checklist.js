@@ -8,6 +8,7 @@
     { id:'daily_angel_halo_pro', type:'daily', title:'エンジェル・ヘイローPro', group:'スキップ系', recommended:false },
     { id:'daily_matome_pro', type:'daily', title:'まとめてPro', group:'スキップ系', recommended:true, note:'解放済みProを選択して一括消化' },
     { id:'daily_event_mission', type:'daily', title:'イベントミッション消化', group:'イベント', recommended:true, eventWhen:{ categories:['event','collab','battle'] } },
+    { id:'daily_autumn_free_draw', type:'daily', title:'無料ガチャ（オータムキャンペーン）', group:'イベント', recommended:true, eventWhen:{ titles:['グラブルオータムキャンペーン'] } },
     { id:'daily_casino_pickup', type:'daily', title:'カジノメダル拾い', group:'その他', recommended:true },
     { id:'daily_skyleap_login', type:'daily', title:'SkyLeapログイン', group:'その他', recommended:false },
     { id:'daily_tsuyobaha', type:'daily', title:'つよバハ', group:'ヒヒ掘り', priority:'優先', recommended:false },
@@ -60,7 +61,8 @@
       checked:{},
       periodKeys:currentPeriodKeys(),
       sandboxMonthlyDefaultApplied:true,
-      matomeProDefaultApplied:true
+      matomeProDefaultApplied:true,
+      autumnFreeDrawDefaultApplied:true
     };
   }
 
@@ -98,6 +100,11 @@
       }
     }
 
+    // v3.9: 既存利用者にも期間限定無料ガチャを一度だけおすすめ追加。
+    if(data.initialized && !data.autumnFreeDrawDefaultApplied){
+      selected.push('daily_autumn_free_draw');
+    }
+
     return {
       initialized:Boolean(data.initialized),
       dismissed:Boolean(data.dismissed),
@@ -105,7 +112,8 @@
       checked:data.checked && typeof data.checked === 'object' ? data.checked : {},
       periodKeys:data.periodKeys && typeof data.periodKeys === 'object' ? data.periodKeys : currentPeriodKeys(),
       sandboxMonthlyDefaultApplied:true,
-      matomeProDefaultApplied:true
+      matomeProDefaultApplied:true,
+      autumnFreeDrawDefaultApplied:true
     };
   }
 
